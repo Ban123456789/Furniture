@@ -1,0 +1,234 @@
+<% extend('../layout/layout') %> 
+
+<div class="container-fluid products-box">
+    <p class="products-name">商品介紹</p>
+</div>
+  
+<div class="container mt-3 mb-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-white">
+          <li class="breadcrumb-item"><a href="#" class="breadcrumb-style">首頁</a></li>
+          <li class="breadcrumb-item"><a href="#" class="breadcrumb-style">全部商品</a></li>
+          <li class="breadcrumb-item active" aria-current="page">沙發</li>
+        </ol>
+    </nav>
+    
+    <div class="row mx-5">
+        <div class="col-lg-6">
+            <figure class="figure">
+                <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="figure-img img-fluid rounded img-box" alt="...">
+            </figure>
+        </div>
+        
+        <div class="col-lg-6">
+            <div class="row border-bt">
+                <div class="col-6">
+                    <p class="title-size font-weight-bolder">沙發</p>
+                </div>
+                <div class="col-6 text-right mt-3">
+                    <a href="#" class="content-size font-weight-bolder text-danger">
+                        加入最愛 <i class="far fa-heart"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <p class="mt-4 content-size">型號: K5520</p>
+            <p class="card-text text-dark text-right mt-5">
+                <del class="mr-2">NT 3,000</del>
+                <span class="card-text text-danger content-size">NT 3,000</span>
+            </p>
+
+            <form action="">
+                <select name="quantity" class="quantity-style mt-4">
+                    <option value="choose" disabled>請選擇你要得數量</option>
+                    <option value="1" selected>1 <span>個</span></option>
+                    <option value="2">2 <span>個</span></option>
+                    <option value="3">3 <span>個</span></option>
+                    <option value="4">4 <span>個</span></option>
+                    <option value="5">5 <span>個</span></option>
+                    <option value="6">6 <span>個</span></option>
+                </select>
+                <div class="text-right mt-4 content-size font-weight-bolder">
+                    <p class="d-inline-block mr-3">小計 <span class="border-lf">NT 3,000</span></p>
+                    <input type="submit" value="加到購物車" class="btn btn-outline-danger font-weight-bolder">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 商品細節三格欄位 -->
+    <div class="accordion" id="detail">
+        <div class="card">
+            <div class="row">
+                <!-- 商品介紹按鈕(按鈕區) -->
+                <div class="col-lg-2 col-sm-4">
+                    <div class="card-header bg-white" id="prductDetail">
+                        <h2 class="mb-0">
+                          <button class="btn collapsed text-dark font-weight-bolder detail-btn" type="button" data-toggle="collapse" data-target="#detailOne" aria-expanded="false" aria-controls="#detailOne">
+                            商品介紹
+                          </button>
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-4">
+                    <div class="card-header bg-white" id="buyKnow">
+                        <h2 class="mb-0">
+                          <button class="btn collapsed text-dark font-weight-bolder detail-btn" type="button" data-toggle="collapse" data-target="#detailTwo" aria-expanded="false" aria-controls="#detailTwo">
+                            購買須知
+                          </button>
+                        </h2>
+                      </div>
+                </div>
+                <div class="col-lg-2 col-sm-4">
+                    <div class="card-header bg-white" id="returnPro">
+                        <h2 class="mb-0">
+                          <button class="btn collapsed text-dark font-weight-bolder detail-btn" type="button" data-toggle="collapse" data-target="#detailThree" aria-expanded="false" aria-controls="#detailThree">
+                            退換貨說明
+                          </button>
+                        </h2>
+                      </div>
+                </div>
+            </div>
+
+            <!-- 商品介紹內容(內容區) -->
+            <div class="detail-content">
+                <div id="detailOne" class="collapse" aria-labelledby="prductDetail" data-parent="#detail">
+                    <div class="card-body">
+                        <p>寬88 深83 高69 公分<br/>內部材質:採用實木骨架+高密度泡棉<br/>外部材質:採用高級棉麻布(可拆洗)</p>
+                    </div>
+                </div>
+                <div id="detailTwo" class="collapse" aria-labelledby="returnPro" data-parent="#detail">
+                    <div class="card-body">
+                        <p>每次購物滿 1299 元以上免運費，未達 1299 元 需加付 80 元運費。
+                            <br/>出貨時間為 2-3。大型商品(如：沙發等)以貨運公司配送。
+                            <br/>貨品均一年保固免費維修。</p>
+                    </div>
+                </div>
+                <div id="detailThree" class="collapse" aria-labelledby="returnPro" data-parent="#detail">
+                    <div class="card-body">
+                        <p>網路購物的消費者，享有商品貨到日起七天猶豫期。
+                            <br/>但猶豫期並非試用期，所以，您所退回的商品必須是全新的狀態。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 熱門商品 -->
+    <div class="mt-4">
+        <p class="font-weight-bolder products-font-size">熱門商品</p>
+    </div>
+    <div class="swiper-container" id="swiperTwo">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
+                <div>
+                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
+                    <div class="info-box-indetail">
+                        <a href="/detail" class="look-more">查看更多</a>
+                    </div> 
+                </div>
+                   
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
+                    <p class="card-text text-dark text-right">
+                        <del class="mr-2">NT 3,000</del>
+                        <span class="card-text text-danger content-size">NT 3,000</span>
+                    </p>
+                </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
+                <div>
+                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
+                    <div class="info-box-indetail">
+                        <a href="/detail" class="look-more">查看更多</a>
+                    </div> 
+                </div>
+                   
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
+                    <p class="card-text text-dark text-right">
+                        <del class="mr-2">NT 3,000</del>
+                        <span class="card-text text-danger content-size">NT 3,000</span>
+                    </p>
+                </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
+                <div>
+                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
+                    <div class="info-box-indetail">
+                        <a href="/detail" class="look-more">查看更多</a>
+                    </div> 
+                </div>
+                   
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
+                    <p class="card-text text-dark text-right">
+                        <del class="mr-2">NT 3,000</del>
+                        <span class="card-text text-danger content-size">NT 3,000</span>
+                    </p>
+                </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
+                <div>
+                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
+                    <div class="info-box-indetail">
+                        <a href="/detail" class="look-more">查看更多</a>
+                    </div> 
+                </div>
+                   
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
+                    <p class="card-text text-dark text-right">
+                        <del class="mr-2">NT 3,000</del>
+                        <span class="card-text text-danger content-size">NT 3,000</span>
+                    </p>
+                </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
+                <div>
+                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
+                    <div class="info-box-indetail">
+                        <a href="/detail" class="look-more">查看更多</a>
+                    </div> 
+                </div>
+                   
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
+                    <p class="card-text text-dark text-right">
+                        <del class="mr-2">NT 3,000</del>
+                        <span class="card-text text-danger content-size">NT 3,000</span>
+                    </p>
+                </div>
+            </div>
+          </div>
+          <div class="swiper-slide">
+            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
+                <div>
+                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
+                    <div class="info-box-indetail">
+                        <a href="/detail" class="look-more">查看更多</a>
+                    </div> 
+                </div>
+                   
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
+                    <p class="card-text text-dark text-right">
+                        <del class="mr-2">NT 3,000</del>
+                        <span class="card-text text-danger content-size">NT 3,000</span>
+                    </p>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>

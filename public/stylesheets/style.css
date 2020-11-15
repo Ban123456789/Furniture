@@ -1,10 +1,15 @@
 body {
   /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 0;
+  background-color: rgb(241, 240, 240);
 }
 
 a {
   color: #00B7FF;
+}
+a:hover {
+  text-decoration: none;
 }
 
 /* todo 前端 */
@@ -35,7 +40,14 @@ a {
   font-size: 23px;
 }
 .font-center {
-    text-align: center;
+  text-align: center;
+}
+.border-lf {
+  border-left: 1px gray solid;
+  padding-left: 7px;
+}
+.bg-gray {
+  background-color: rgb(206, 204, 204);
 }
 
 /** 主頁輪播 */
@@ -116,13 +128,17 @@ a {
   width: 100%;
   height: 25vh;
   background: url("/images/roberto-nickson-tleCJiDOri0-unsplash.jpg") no-repeat center bottom;
+  position: relative;
 }
 .products-name {
   font-size: 40px;
   color: white;
   text-shadow: rgb(27, 26, 26) 0.1em 0.1em 0.2em;
-  text-align: center;
-  line-height: 230px;
+  /* text-align: center; */
+  /* line-height: 230px; */
+  position: absolute;
+    bottom: 20%;
+    left: 43%;
 }
 .border-bt {
   border-bottom: 1px grey solid
@@ -149,15 +165,15 @@ a {
 }
 .info-box {
   position: absolute;
-  left: 7px;
-  top: 7px;
-  bottom: 160px;
-  right: 7px;
+    left: 7px;
+    top: 7px;
+    bottom: 160px;
+    right: 7px;
    color:#fff;
   background:rgba(0,0,0,.6);
-   text-align:center;
-   transform:scaleY(0);
-   transition:transform .5s;
+  text-align:center;
+  transform:scaleY(0);
+  transition:transform .5s;
 }
 .products-card:hover .info-box {
   transform:scaleY(1);
@@ -230,4 +246,130 @@ a {
   .sofa, .chair, .tables {
     display: none;
   }
+}
+
+/** 商品細節 */
+.breadcrumb-style {
+  color: #2b3036;
+  font-weight: bolder;
+}
+.img-box {
+  border: 2px black solid;
+}
+.datail-card-top {
+  width: 100%;
+  border-bottom: 1px black solid;
+}
+.quantity-style {
+  width: 100%;
+  padding: 7px 3px;
+  border-radius: 5px;
+  font-size: 18px;
+}
+.detail-btn:focus {
+  background-color: rgb(175, 210, 219);
+}
+.detail-content {
+  background-color: rgb(175, 210, 219);
+}
+.detail-card {
+  height: 300px;
+}
+.info-box-indetail {
+  position: absolute;
+    left: 7px;
+    top: 7px;
+    bottom: 105px;
+    right: 7px;
+   color:#fff;
+  background:rgba(0,0,0,.6);
+  text-align:center;
+  transform:scaleY(0);
+  transition:transform .5s;
+}
+.products-card:hover .info-box-indetail {
+  transform:scaleY(1);
+}
+
+/** 關於我們的banner */
+.about-banner {
+  background-image: url('/images/toa-heftiba-oKbQxVusp8M-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: bottom;
+  background-size: cover;
+  width: 100%;
+  height: 300px;
+  position: relative;
+}
+.about-banner-content {
+  color: white;
+  text-shadow: black 0.1em 0.1em 0.2em;
+  font-size: 30px;
+  font-weight: bolder;
+}
+.about-banner-first {
+  position: absolute;
+    top: 50%;
+    left: 10%;
+    display: none;
+}
+.about-banner-second {
+  position: absolute;
+    top: 65%;
+    left: 15%;
+    display: none;
+}
+
+/** 關於我們的內容 */
+.about-img {
+  height: 400px;
+  background-image: url('/images/bernard-hermant-KqOLr8OiQLU-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  /* border: 1px black solid; */
+  position: relative;
+}
+.about-img-box {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+    top: 18%;
+    left: 70%;
+    z-index: 1;
+  box-shadow: 3px 3px 12px black;
+}
+.about-content {
+  position: relative;
+}
+.about-inner-content {
+  width: 500px;
+  height: 300px;
+  border: 3px black solid;
+  position: relative;
+    top: 50px;
+    right: -10%;
+  /* line-height: 250px; */
+  padding: 40px 80px;
+  font-size: 16px;
+}
+
+/** 聯絡我們 */
+.connect-us {
+  width: 100%;
+  height: 250px;
+  background-image: url('/images/Mu7xXLkyaBsS0vl98VrHQEYsN0HKsL2pDgypK2zq1vJXvWT2jzQnHz9oF8hnYqeeq0eXzyDCLILY9F0qeUchP5X3JF6lRCG8j467Wb1vHQFwQUrANjiHLimtuFruIYLh.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.connect-title {
+  text-shadow: black 0.1em 0.1em 0.2em;
+}
+.connect-p {
+  font-size: 25px;
+}
+.connect-connect {
+  font-size: 20px;
 }

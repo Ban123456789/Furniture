@@ -143,6 +143,10 @@ a:hover {
 .border-bt {
   border-bottom: 1px grey solid
 }
+/* 這樣商品列表就不會被上面nav bar 給蓋住 */
+.top {
+  top: 8%;
+}
 
 /** 主頁分隔 */
 .separate {
@@ -345,14 +349,38 @@ a:hover {
 }
 .about-inner-content {
   width: 500px;
-  height: 300px;
+  height: auto;
   border: 3px black solid;
   position: relative;
-    top: 50px;
+    top: 12%;
     right: -10%;
   /* line-height: 250px; */
-  padding: 40px 80px;
+  padding: 10% 15%;
   font-size: 16px;
+}
+@media(max-width:1200px){
+  .about-inner-content {
+    width: 100%;
+    height: 300px;
+    border: 3px black solid;
+    position: relative;
+      top: 0;
+      left: 0;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+    display: flex;
+      align-items: center;
+  }
+}
+@media(max-width:768px){
+  .about-img-box {
+    display: none;
+  }
+  .about-img {
+    background-image: url('/images/photo-1548964095-b9a292144866.jpg');
+    background-position: center top;
+  }
 }
 
 /** 聯絡我們 */

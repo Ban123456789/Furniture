@@ -1,9 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
+// todo 確認購物車內容
+router.get('/', function(req, res, next) {
+    // res.render('layout/cart-layout');
+  });
+
+// todo 確認購物車內容
 router.get('/checkcart', function(req, res, next) {
-  res.render('client/cart/Check-cart');
+  res.render('cart/Check-cart');
 });
 
 module.exports = router;

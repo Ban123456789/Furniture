@@ -1,0 +1,37 @@
+<% extend('../layout/layout') %>
+
+<div class="about-banner">
+    <div class="about-banner-content">
+        <p class="about-banner-first">為自己打造</p>
+        <p class="about-banner-second">生活的品質</p>
+    </div>
+</div>
+
+<div>
+    <div class="container mt-5">
+        <ol class="list d-flex justify-content-center">
+            <li class="active">
+                <i class="fa fas fa-shopping-cart"></i>
+                確認購物車訂單
+            </li>
+            <li>
+                <i class="fa fa-file-text" aria-hidden="true"></i>
+                填寫個人資料
+            </li>
+            <li>
+                <i class="fa fas fa-money-check-alt"></i>
+                結帳去
+            </li>
+            <li>
+                <i class="fa fa-archive" aria-hidden="true"></i>
+                完成訂單
+            </li>
+        </ol>
+    </div>
+
+    <hr class="bg-dark">
+
+    <div>
+        <%- content %>
+    </div>
+</div>

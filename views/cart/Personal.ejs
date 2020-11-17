@@ -1,0 +1,75 @@
+<% extend('../layout/layout') %> 
+
+<div class="about-banner">
+    <div class="about-banner-content">
+        <p class="about-banner-first">為自己打造</p>
+        <p class="about-banner-second">生活的品質</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="list-check">
+        <ol class="list d-flex justify-content-center">
+            <li>
+                <i class="fa fas fa-shopping-cart"></i>
+                確認購物車訂單
+            </li>
+            <li class="active">
+                <i class="fa fa-file-text" aria-hidden="true"></i>
+                填寫個人資料
+            </li>
+            <li>
+                <i class="fa fas fa-money-check-alt"></i>
+                結帳去
+            </li>
+            <li>
+                <i class="fa fa-archive" aria-hidden="true"></i>
+                完成訂單
+            </li>
+        </ol>
+    </div>
+    <div class="single">
+        <i class="fa fa-file-text" aria-hidden="true"></i>
+        填寫個人資料
+    </div>
+
+    <hr class="bg-dark">
+    
+    <form>
+        <div class="form-group">
+          <label for="email"">請輸入電子郵件</label>
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="輸入電子郵件" name="Email" required>
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="name">收件人姓名</label>
+          <input type="text" class="form-control" id="name" placeholder="輸入姓名" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">收件人電話</label>
+            <input type="number" class="form-control" id="phone" placeholder="輸入電話" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="address">收件人地址</label>
+            <input type="text" class="form-control" id="address" placeholder="輸入地址" name="address" required>
+        </div>
+        <div class="form-group">
+            <label for="payfor">付款方式</label>
+            <select name="payfor" id="payfor" class="custom-select">
+                <option value="" disabled>請選擇付款方式</option>
+                <option value="ATM" selected>ATM 轉帳</option>
+                <option value="creditcard">中國信託</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="textarea"">Example textarea</label>
+            <textarea class="form-control" id="textarea" rows="3"></textarea>
+        </div>
+
+        <!-- 按鈕 -->
+        <div class="mt-5 mb-4 text-right">
+            <a href="" class="btn btn-success">上一步</a>
+            <input type="submit" value="下一步" class="btn btn-success">
+        </div>
+      </form>
+</div>

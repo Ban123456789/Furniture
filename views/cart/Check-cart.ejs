@@ -1,89 +1,152 @@
-<% extend('../layout/cart-layout') %> 
+<% extend('../layout/layout') %> 
 
-<div>
-    <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">產品圖片</th>
-            <th scope="col">產品名稱</th>
-            <th scope="col">產品型號</th>
-            <th scope="col">產品規格</th>
-            <th scope="col">數量</th>
-            <th scope="col">刪除</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>
-                <select name="quantity">
-                    <option value="" disabled>請選擇數量</option>
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </td>
-            <td>
-                <a href="">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>
-                <select name="quantity">
-                    <option value="" disabled>請選擇數量</option>
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </td>
-            <td>
-                <a href="">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td>
-                <select name="quantity">
-                    <option value="" disabled>請選擇數量</option>
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </td>
-            <td>
-                <a href="">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<div class="about-banner">
+    <div class="about-banner-content">
+        <p class="about-banner-first">為自己打造</p>
+        <p class="about-banner-second">生活的品質</p>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="list-check">
+        <ol class="list d-flex justify-content-center">
+            <li class="active">
+                <i class="fa fas fa-shopping-cart"></i>
+                確認購物車訂單
+            </li>
+            <li>
+                <i class="fa fa-file-text" aria-hidden="true"></i>
+                填寫個人資料
+            </li>
+            <li>
+                <i class="fa fas fa-money-check-alt"></i>
+                結帳去
+            </li>
+            <li>
+                <i class="fa fa-archive" aria-hidden="true"></i>
+                完成訂單
+            </li>
+        </ol>
+    </div>
+    <div class="single">
+        <i class="fa fas fa-shopping-cart"></i>
+        確認購物車訂單
+    </div>
+
+    <hr class="bg-dark">
+
+    <div class="container table-responsive">
+        <table class="table table-striped" style="width: 1050px;">
+            <thead class="thead-dark">
+              <tr>
+                <th>產品圖片</th>
+                <th>產品名稱</th>
+                <th>產品型號</th>
+                <th>產品規格</th>
+                <th>數量</th>
+                <th>價格</th>
+                <th>刪除</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                <td>
+                    <select name="quantity">
+                        <option value="" disabled>請選擇數量</option>
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+                <td class="text-danger"><span>NT</span> 5,100</td>
+                <td>
+                    <a href="">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+                <td>
+                    <select name="quantity">
+                        <option value="" disabled>請選擇數量</option>
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+                <td class="text-danger"><span>NT</span> 5,100</td>
+                <td>
+                    <a href="">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>Larry</td>
+                <td>the Bird</td>
+                <td>@twitter</td>
+                <td>
+                    <select name="quantity">
+                        <option value="" disabled>請選擇數量</option>
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                    </select>
+                </td>
+                <td class="text-danger"><span>NT</span> 5,100</td>
+                <td>
+                    <a href="">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <table class="table col-lg-4">
+      <tbody>
+        <tr>
+          <th scope="row">小計</th>
+          <td><span>NT</span> 11,500</td>
+        </tr>
+        <tr>
+          <th scope="row">運費</th>
+          <td><span>NT</span> 100</td>
+        </tr>
+        <tr>
+          <th scope="row">優惠券</th>
+          <td>
+              <input type="text">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">總計</th>
+          <td><span>NT</span> 10,000</td>
+        </tr>
+      </tbody>
+    </table>
 
       <div class="mt-5 mb-4 text-right">
-          <a href="" class="btn btn-success">更多..</a>
-          <a href="" class="btn btn-success">下一步</a>
+          <a href="/products" class="btn btn-success">更多..</a>
+          <a href="/cart/personal" class="btn btn-success">下一步</a>
       </div>
 </div>

@@ -11,4 +11,19 @@ router.get('/checkcart', function(req, res, next) {
   res.render('cart/Check-cart');
 });
 
+// todo 填寫個人資料
+router.get('/personal', function(req, res, next) {
+    res.render('cart/Personal');
+});
+
+// todo 結帳去
+router.get('/pay', function(req, res, next) {
+    res.render('cart/Pay');
+});
+
+// todo 完成訂單
+router.get('/finish', function(req, res, next) {
+    res.render('cart/Finish');
+});
+
 module.exports = router;

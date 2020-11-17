@@ -26,5 +26,10 @@ router.get('/about', function(req, res, next) {
   res.render('client/about', { title: 'Expressssss' });
 });
 
+// todo 我的收藏
+router.get('/favorites', function(req, res, next) {
+  res.render('client/favorites', { title: 'Expressssss' });
+});
+
 
 module.exports = router;

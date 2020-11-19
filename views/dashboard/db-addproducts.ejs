@@ -1,0 +1,196 @@
+<% extend('../layout/dashboard-layout') %> 
+
+<div class="container-fluid mt-4 mb-4">
+    <div class="d-flex">
+        <!-- 搜尋 -->
+        <div class="input-group w-25 mr-auto">
+            <input type="text" class="form-control" placeholder="搜尋" aria-label="Recipient's username" aria-describedby="button-addon2"
+                data-toggle="tooltip" data-placement="top" title="按下 ENTER 快速搜尋">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon2">GO</button>
+            </div>
+        </div>
+
+        <!-- 新增商品 -->
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addproduct">新增商品</button>
+        <div class="modal fade" id="addproduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">新增商品</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="/dashboard/addproduct" method="POST">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-5">
+                                  <div class="custom-file">
+                                      <img src="/images/neonbrand-Wp7t4cWN-68-unsplash.jpg" alt="" style="width: 100%; height: 300px;">
+                                      <input type="file" class="custom-file-input" id="customFile">
+                                      <label class="custom-file-label" for="customFile">選擇圖片</label>
+                                    </div>
+                                </div>
+                                <div class="col-7">
+                                    <div class="mb-3">
+                                        <label for="productname"">商品名稱</label>
+                                        <input type="text" class="form-control" id="productname" placeholder="名稱" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productid"">商品編號</label>
+                                        <input type="text" class="form-control" id="productid" placeholder="編號" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productcategory"">商品類別</label>
+                                        <select class="form-control" id="productcategory">
+                                            <option value="" disabled>請選擇類別</option>
+                                            <option value="ctSofa">沙發專區</option>
+                                            <option value="ctChair">椅子專區</option>
+                                            <option value="ctTable">桌子專區</option>
+                                            <option value="ctBed">床組專區</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productorigin"">商品原價</label>
+                                        <input type="number"" class="form-control" id="productorigin" placeholder="原價" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="productprice"">商品售價</label>
+                                        <input type="number" class="form-control" id="productprice" placeholder="售價" required>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <label for="productstock">商品存貨</label>
+                                            <input type="number" class="form-control" id="productstock" placeholder="存貨" required>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="productunit"">商品單位</label>
+                                            <input type="text" class="form-control" id="productunit" placeholder="單位" required>
+                                        </div>
+                                    </div>
+                                    <div class="custom-control custom-switch">
+                                        <!-- <label class="custom-control-label" for="customSwitch1">下架</label> -->
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label" for="customSwitch1">上架</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                      <input type="submit" class="btn btn-success" value="確認儲存">
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+    </div>
+
+    <div class="row mt-5">
+        <!-- 類別列表 -->
+        <div class="col-2">
+            <div class="">
+                <div class="list-group sticky-top top" id="list-tab" role="tablist">
+                  <a class="list-group-item list-group-item-action active list-group-item-dark font-weight-bolder" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="all">全部商品</a>
+                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="discount">積殺優惠</a>
+                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="sofa">沙發專區</a>
+                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="chair">椅子專區</a>
+                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="table">桌子專區</a>
+                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="bed">床組專區</a>
+                </div>
+            </div>
+        </div>
+        <!-- 商品列表 -->
+        <div class="col-10">
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col" width=50>#</th>
+                    <th scope="col">商品名稱</th>
+                    <th scope="col">商品編號</th>
+                    <th scope="col">商品原價</th>
+                    <th scope="col">商品售價</th>
+                    <th scope="col" width=80>上/下 架</th>
+                    <th scope="col" width=250>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>Mark</td>
+                    <td class="text-success">上架</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-secondary">編輯</button>
+                            <button type="button" class="btn btn-outline-secondary">查看</button>
+
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                其他
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" href="#">上下架</a>
+                                    <a class="dropdown-item text-danger" href="#">刪除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>Mark</td>
+                    <td class="text-danger">下架</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-secondary">編輯</button>
+                            <button type="button" class="btn btn-outline-secondary">查看</button>
+
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                其他
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" href="#">上下架</a>
+                                    <a class="dropdown-item text-danger" href="#">刪除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td colspan="2">Larry the Bird</td>
+                    <td>@twitter</td>
+                    <td>Mark</td>
+                    <td class="text-success">上架</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-secondary">編輯</button>
+                            <button type="button" class="btn btn-outline-secondary">查看</button>
+
+                            <div class="btn-group" role="group">
+                                <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                其他
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                    <a class="dropdown-item" href="#">上下架</a>
+                                    <a class="dropdown-item text-danger" href="#">刪除</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

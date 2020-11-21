@@ -1,0 +1,179 @@
+<% extend('../layout/dashboard-layout') %>
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <!-- 新增優惠券 -->
+        <div class="col-6">
+            <!-- Button trigger modal -->
+            <div class="text-right">
+                <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#coupon">
+                    新增優惠券
+                </button>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="coupon" tabindex="-1" role="dialog" aria-labelledby="coupon" aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="coupon">新增優惠券</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <form action="">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="coupon""">優惠券序號</label>
+                                <input type="text" class="form-control" id="coupon" placeholder="序號" name="coupon" required
+                                    data-toggle="tooltip" data-placement="top" title="大小寫有差喔!">
+                            </div>
+                            <div class="mb-3">
+                                <label for="expirydate"">到期日期</label>
+                                <input type="text" class="form-control" id="expirydate" placeholder="到期日" name="expirydate" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                            <input type="submit" class="btn btn-success" value="確認新增">
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">優惠券序號</th>
+                    <th scope="col">生產日期</th>
+                    <th scope="col">到期日期</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>MK5520</td>
+                    <td>2020/11/20</td>
+                    <td>2020/11/30</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
+                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>YY1234</td>
+                    <td>2020/11/20</td>
+                    <td>2020/12/20</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
+                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>MY520</td>
+                    <td>2020/11/20</td>
+                    <td>2020/01/10</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
+                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 新增最新消息 -->
+        <div class="col-6">
+            <!-- Button trigger modal -->
+            <div class="text-right">
+                <button type="button" class="btn btn-info mb-3" data-toggle="modal" data-target="#news">
+                    新增最新消息
+                </button>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="news" tabindex="-1" role="dialog" aria-labelledby="news" aria-hidden="true" data-backdrop="static">
+                <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="news">新增最新消息</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <form action="">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="date"">生產日期</label>
+                                <input type="text" class="form-control" id="date" placeholder="生產日期" name="date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="news"">最新消息</label>
+                                <textarea class="form-control" id="news" rows="5" name="news"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                            <input type="submit" class="btn btn-success" value="新增">
+                        </div>
+                    </form>
+                </div>
+                </div>
+            </div>
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">新增日期</th>
+                    <th scope="col">內容</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>2020/11/20</td>
+                    <td>Lorem ipsum dolor sit amet...</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
+                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>2020/11/30</td>
+                    <td>Lorem ipsum dolor sit amet...</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
+                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>2020/12/20</td>
+                    <td>Lorem ipsum dolor sit amet...</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
+                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

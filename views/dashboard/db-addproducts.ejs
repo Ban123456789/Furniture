@@ -22,29 +22,33 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <form action="/dashboard/addproduct" method="POST">
+                <form action="/" method="">
                     <div class="modal-body">
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-5">
-                                  <div class="custom-file">
+                                    <div class="custom-file">
                                       <img src="/images/neonbrand-Wp7t4cWN-68-unsplash.jpg" alt="" style="width: 100%; height: 300px;">
-                                      <input type="file" class="custom-file-input" id="customFile">
+                                      <input type="file" class="custom-file-input" id="customFile" name="img">
                                       <label class="custom-file-label" for="customFile">選擇圖片</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="productdetail">商品描述</label>
+                                        <textarea class="form-control" id="productdetail" rows="5" name="detail"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-7">
                                     <div class="mb-3">
                                         <label for="productname"">商品名稱</label>
-                                        <input type="text" class="form-control" id="productname" placeholder="名稱" required>
+                                        <input type="text" class="form-control" id="productname" placeholder="名稱" name="product" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="productid"">商品編號</label>
-                                        <input type="text" class="form-control" id="productid" placeholder="編號" required>
+                                        <input type="text" class="form-control" id="productid" placeholder="編號" name="id" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="productcategory"">商品類別</label>
-                                        <select class="form-control" id="productcategory">
+                                        <label for="productcategory">商品類別</label>
+                                        <select class="form-control" id="productcategory" name="category">
                                             <option value="" disabled>請選擇類別</option>
                                             <option value="ctSofa">沙發專區</option>
                                             <option value="ctChair">椅子專區</option>
@@ -54,25 +58,24 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="productorigin"">商品原價</label>
-                                        <input type="number"" class="form-control" id="productorigin" placeholder="原價" required>
+                                        <input type="number"" class="form-control" id="productorigin" placeholder="原價" name="origin" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="productprice"">商品售價</label>
-                                        <input type="number" class="form-control" id="productprice" placeholder="售價" required>
+                                        <input type="number" class="form-control" id="productprice" placeholder="售價" name="price" required>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-6">
                                             <label for="productstock">商品存貨</label>
-                                            <input type="number" class="form-control" id="productstock" placeholder="存貨" required>
+                                            <input type="number" class="form-control" id="productstock" placeholder="存貨" name="stock" required>
                                         </div>
                                         <div class="col-6">
                                             <label for="productunit"">商品單位</label>
-                                            <input type="text" class="form-control" id="productunit" placeholder="單位" required>
+                                            <input type="text" class="form-control" id="productunit" placeholder="單位" name="unit" required>
                                         </div>
                                     </div>
                                     <div class="custom-control custom-switch">
-                                        <!-- <label class="custom-control-label" for="customSwitch1">下架</label> -->
-                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name="ontheshelf" value="true">
                                         <label class="custom-control-label" for="customSwitch1">上架</label>
                                     </div>
                                 </div>
@@ -86,27 +89,73 @@
                 </form>
               </div>
             </div>
-          </div>
+        </div>
     </div>
 
     <div class="row mt-5">
         <!-- 類別列表 -->
         <div class="col-2">
-            <div class="">
+            <div class="mb-3">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#addcategory">新增類別</button>
+                <div class="modal fade" id="addcategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">新增商品</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form action="/dashboard/category/creat" method="POST">
+                                <div class="modal-body">
+                                    <div class="container-fluid">
+                                        <div>
+                                            <div class="mb-3">
+                                                <label for="name">類別名稱</label>
+                                                <input type="text" class="form-control" id="name" placeholder="名稱" name="name" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="path"">類別路徑</label>
+                                                <input type="text" class="form-control" id="path" placeholder="編號" name="path" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                                    <input type="submit" class="btn btn-success" value="確認儲存">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
                 <div class="list-group sticky-top top" id="list-tab" role="tablist">
-                  <a class="list-group-item list-group-item-action active list-group-item-dark font-weight-bolder" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="all">全部商品</a>
-                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="discount">積殺優惠</a>
-                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="sofa">沙發專區</a>
-                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="chair">椅子專區</a>
-                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="table">桌子專區</a>
-                  <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="bed">床組專區</a>
+                    <a class="list-group-item list-group-item-action active list-group-item-light font-weight-bolder" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="all">全部商品</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light font-weight-bolder" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="discount">積殺優惠</a>
+                    <div class="list-group-item list-group-item-action list-group-item-light font-weight-bolder" id="list-messages-list" data-toggle="list" role="tab" aria-controls="sofa">
+                        <a class=""  href="#list-messages" class="">沙發專區</a>
+                        <a href="" class="d-inline p-2 btn btn-info ml-3">編輯</a>
+                        <a href="" class="d-inline p-2 btn btn-danger">刪除</a>
+                    </div>
+                    <div class="list-group-item list-group-item-action list-group-item-light font-weight-bolder" id="list-messages-list" data-toggle="list" role="tab" aria-controls="sofa">
+                        <a class=""  href="#list-messages" class="">沙發專區</a>
+                        <a href="" class="d-inline p-2 btn btn-info ml-3">編輯</a>
+                        <a href="" class="d-inline p-2 btn btn-danger">刪除</a>
+                    </div>
+                    <div class="list-group-item list-group-item-action list-group-item-light font-weight-bolder" id="list-messages-list" data-toggle="list" role="tab" aria-controls="sofa">
+                        <a class=""  href="#list-messages" class="">沙發專區</a>
+                        <a href="" class="d-inline p-2 btn btn-info ml-3">編輯</a>
+                        <a href="" class="d-inline p-2 btn btn-danger">刪除</a>
+                    </div>
                 </div>
             </div>
         </div>
         <!-- 商品列表 -->
         <div class="col-10">
             <table class="table table-hover">
-                <thead>
+                <thead class="thead-dark">
                   <tr>
                     <th scope="col" width=50>#</th>
                     <th scope="col">商品名稱</th>
@@ -193,4 +242,17 @@
             </table>
         </div>
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
 </div>

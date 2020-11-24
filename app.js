@@ -18,20 +18,23 @@ app.engine('ejs', require('express-ejs-extend'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// parse application/json
+app.use(bodyParser.json());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
- 
-// parse application/json
-app.use(bodyParser.json());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cart', cartRouter);
 app.use('/dashboard', dashboardRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

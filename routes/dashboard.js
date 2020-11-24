@@ -74,11 +74,12 @@ router.post('/product/creat', function(req, res){
     const products = firebaseDb.ref('/products').push();
     const key = products.key;
     let ontheshelf = '';
-        if(req.body.ontheshelf === true){
+        if(req.body.ontheshelf === 'true'){
             ontheshelf = 'true';
         }else{
             ontheshelf = 'false';
         };
+        console.log(req.body.ontheshelf);
         products.set({
             img: req.body.img,
             datail: req.body.detail,
@@ -103,7 +104,7 @@ router.post('/product/creat', function(req, res){
 router.post('/product/edit/:id', function(req, res){
     const id = req.params.id;
     let ontheshelf = '';
-        if(req.body.ontheshelf === true){
+        if(req.body.ontheshelf === 'true'){
             ontheshelf = 'true';
         }else{
             ontheshelf = 'false';
@@ -127,6 +128,12 @@ router.post('/product/edit/:id', function(req, res){
             console.log('編輯文章失敗');
             res.redirect('/dashboard/addproducts');
         })
+});
+// 刪除商品
+router.post('/product/del/:id', function(req, res){
+    const id = req.params.id;
+        firebaseDb.ref('/products').child(id).remove();
+        res.redirect('/dashboard/addproducts');
 });
 
 // todo 訂單查詢

@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name="ontheshelf">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1" name="ontheshelf" value="true">
                                         <label class="custom-control-label" for="customSwitch1">上架</label>
                                     </div>
                                 </div>
@@ -200,7 +200,7 @@
                 <tbody>
                   <% for( let i in productsArr ) { %>
                     <tr>
-                        <th scope="row">1</th>
+                        <th scope="row"><%= i*1+1 %> </th>
                         <td><%= productsArr[i].product %></td>
                         <td><%= productsArr[i].id %></td>
                         <td><%= productsArr[i].origin %></td>
@@ -219,11 +219,36 @@
     
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    其他
+                                        其他
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <a class="dropdown-item text-danger" href="#">刪除</a>
+                                       <!-- Button trigger modal -->
+                                        <button type="button" class="dropdown-item text-danger" data-toggle="modal" data-target="#<%= productsArr[i].uid %>del">
+                                            刪除
+                                        </button>
                                     </div>
+                                     <!-- Modal -->
+                                     <div class="modal fade" id="<%= productsArr[i].uid %>del" tabindex="-1" role="dialog" aria-labelledby="example" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title text-danger" id="example">確定要刪除!!</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                確定要刪除 <span class="text-primary"><%= productsArr[i].product %></span> 
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                                                <form action="/dashboard/product/del/<%= productsArr[i].uid %>" method="POST">
+                                                    <button type="submit" class="btn btn-danger">確認</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div> 
                                 </div>
                             </div>
                         </td>
@@ -272,7 +297,7 @@
                                             <select class="form-control" id="productcategory" name="category">
                                                 <option value="" disabled>請選擇類別</option>
                                                 <% for( let j in categoriesArr ) { %>
-                                                    <option value="<%= categoriesArr[i].name %>"
+                                                    <option value="<%= categoriesArr[j].name %>"
                                                         <% if (productsArr[i].category === categoriesArr[j].name) { %>
                                                             selected 
                                                         <% } %>>
@@ -300,7 +325,13 @@
                                             </div>
                                         </div>
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch1" name="ontheshelf">
+                                            <input type="checkbox" class="custom-control-input" id="customSwitch1" name="ontheshelf" value="true"
+                                                <% if (productsArr[i].ontheshelf === 'true') { %>
+                                                    checked
+                                                <% } else { %>
+                                                    umm    
+                                                <% } %>
+                                            >
                                             <label class="custom-control-label" for="customSwitch1">上架</label>
                                         </div>
                                     </div>

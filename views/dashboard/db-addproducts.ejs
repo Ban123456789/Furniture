@@ -164,20 +164,43 @@
                 <% } %>
             </div>
             <div>
-                <div class="list-group sticky-top top" id="list-tab" role="tablist">
-                    <!-- <a class="list-group-item list-group-item-action active list-group-item-light font-weight-bolder" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="all">全部商品</a>
-                    <a class="list-group-item list-group-item-action list-group-item-light font-weight-bolder" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="discount">積殺優惠</a> -->
+                <div class="list-group">
+                    <a class="font-weight-bolder bg-light p-3"  href="/dashboard/addproducts">全部商品</a>
                     <% for( let i in categoriesArr ) { %>
                         <div class="font-weight-bolder bg-light p-2">
-                            <a href="#" class="mr-2 ml-2">
+                            <a href="/dashboard/addproducts?category=<%= categoriesArr[i].name %>" class="mr-2 ml-2">
                                 <%= categoriesArr[i].name %> 
                             </a>
                             <button class="btn btn-outline-info" data-toggle="modal" data-target="#<%= categoriesArr[i].path %>">
                                 編輯
                             </button>
-                            <form action="/dashboard/category/del/<%= categoriesArr[i].id %> " method="POST" class="d-inline">
-                                <input type="submit" value="刪除" class="btn btn-outline-danger">
-                            </form>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#<%= categoriesArr[i].name %>">
+                                刪除
+                            </button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="<%= categoriesArr[i].name %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title text-danger" id="exampleModalLabel">確定要刪除 <%= categoriesArr[i].name %> 分類嗎?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        若刪除此分類，跟此分類相關的商品也會跟著被刪除喔!也會跟著被刪除喔!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                                        <form action="/dashboard/category/del/<%= categoriesArr[i].id %>" method="POST" class="d-inline">
+                                            <input type="submit" value="刪除" class="btn btn-danger">
+                                        </form>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                         </div>
                     <% } %>
                 </div>
@@ -215,7 +238,6 @@
                         <td>
                             <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
                                 <button type="submit" class="btn btn-outline-secondary" data-toggle="modal" data-target="#<%= productsArr[i].uid %>">編輯</button>
-                                <button type="button" class="btn btn-outline-secondary">查看</button>
     
                                 <div class="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -13,7 +13,9 @@ router.get('/', function(req, res, next) {
 // todo 商品管理
 router.get('/addproducts', function(req, res, next) {
     let categoriesArr = []; 
-    let productsArr = [];   
+    let productsArr = [];
+    let category = req.query.category || '全部商品';
+        // console.log(category);   
         firebaseDb.ref('categories').once('value').then( data => {
             data.forEach( categories => {
                 categoriesArr.push(categories.val());
@@ -22,7 +24,11 @@ router.get('/addproducts', function(req, res, next) {
             return firebaseDb.ref('products').once('value');
         }).then( data => {
             data.forEach( products => {
-                productsArr.push(products.val());
+                if(category === products.val().category){
+                    productsArr.push(products.val());
+                }else if(category === '全部商品'){
+                    productsArr.push(products.val());
+                }
             });
             // console.log(productsArr);
             res.render('dashboard/db-addproducts', {
@@ -50,8 +56,23 @@ router.post('/category/creat', function (req, res) {
 // 刪除分類
 router.post('/category/del/:id', function(req, res){
     const id = req.params.id;
+    let categoryData = [];
         firebaseDb.ref('/categories').child(id).remove();
         res.redirect('/dashboard/addproducts');
+        firebaseDb.ref('/categories').once('value').then( category => {
+            category.forEach( data => {
+                categoryData.push(data.val().name);
+            });
+            // console.log(categoryData);
+            return firebaseDb.ref('/products').once('value');
+        }).then( products => {
+            // 分類刪除，商品列表相同分類也會跟著刪除
+            products.forEach( pdata => {
+                if(categoryData.indexOf(pdata.val().category) === -1){
+                    firebaseDb.ref('/products').child(pdata.val().uid).remove();
+                }
+            });
+        });
 });
 // 編輯類別
 router.post('/category/edit/:id', function(req, res){

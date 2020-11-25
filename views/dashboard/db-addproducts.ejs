@@ -92,10 +92,10 @@
     </div>
 
     <div class="row mt-5">
-        <!-- 類別列表 -->
         <div class="col-2">
             <div class="mb-3">
                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#category">新增類別</button>
+                <!-- 新增類別 -->
                 <div class="modal fade" id="category" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-backdrop="static">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
@@ -128,6 +128,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 編輯類別 -->
                 <% for( let i in categoriesArr ) { %>
                     <div class="modal fade" id="<%= categoriesArr[i].path %>" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-lg" role="document">
@@ -164,18 +165,29 @@
                 <% } %>
             </div>
             <div>
+                <!-- 類別列表 -->
                 <div class="list-group">
-                    <a class="font-weight-bolder bg-light p-3"  href="/dashboard/addproducts">全部商品</a>
                     <% for( let i in categoriesArr ) { %>
                         <div class="font-weight-bolder bg-light p-2">
                             <a href="/dashboard/addproducts?category=<%= categoriesArr[i].name %>" class="mr-2 ml-2">
                                 <%= categoriesArr[i].name %> 
                             </a>
-                            <button class="btn btn-outline-info" data-toggle="modal" data-target="#<%= categoriesArr[i].path %>">
+                            <button class="btn btn-outline-info 
+                            <% if (categoriesArr[i].name === "全部商品") { %>
+                                d-none
+                            <% } %>" 
+                                    data-toggle="modal" 
+                                    data-target="#<%= categoriesArr[i].path %>">
                                 編輯
                             </button>
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#<%= categoriesArr[i].name %>">
+                            <button type="button" 
+                                    class="btn btn-outline-danger
+                                    <% if (categoriesArr[i].name === "全部商品") { %>
+                                        d-none
+                                    <% } %>" 
+                                    data-toggle="modal" 
+                                    data-target="#<%= categoriesArr[i].name %>">
                                 刪除
                             </button>
                             

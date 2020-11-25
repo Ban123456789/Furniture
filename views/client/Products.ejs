@@ -14,13 +14,16 @@
 <div class="container modify-fix mb-5 mt-3">
     <div class="row">
         <div class="col-md-3 col-12 mt-5">
-          <div class="list-group sticky-top top" id="list-tab" role="tablist">
-            <a class="list-group-item list-group-item-action active list-group-item-dark font-weight-bolder" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="all">全部商品</a>
-            <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="discount">積殺優惠</a>
-            <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="sofa">沙發專區</a>
-            <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="chair">椅子專區</a>
-            <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="table">桌子專區</a>
-            <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="bed">床組專區</a>
+          <div>
+            <% for( let i in categoriesArr ) { %>
+                <a class="list-group-item list-group-item-action list-group-item-dark font-weight-bolder
+                            <% if (category === categoriesArr[i].name) { %>
+                             active
+                            <% } %>"    
+                    href="/products?category=<%= categoriesArr[i].name %>">
+                    <%= categoriesArr[i].name %>
+                </a>
+            <% } %>
           </div>
         </div>
 
@@ -45,66 +48,32 @@
             </div>
 
             <div class="row d-flex">
-                <div class="col-lg-4 col-md-6 col-12 mb-3 shadow p-2 mb-2 rounded products-card">
-                    <div>
-                        <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
-                        <div class="info-box">
-                            <a href="/detail" class="look-more">查看更多</a>
-                        </div> 
-                    </div>
-                       
-                    <div class="card-body">
-                        <h5 class="card-title text-center font-weight-bolder products-font-size">沙發</h5>
-                        <p class="card-text text-dark text-center">
-                            <del class="mr-2">NT 3,000</del>
-                            <span class="card-text text-danger content-size">NT 3,000</span>
-                        </p>
-                        <div class="d-flex justify-content-between">
-                            <a href="#" class="btn btn-danger">加到購物車 <i class="fas fa-cart-arrow-down"></i></a>
-                            <a href="#" class="btn btn-danger">珍藏 <i class="fas fa-heart"></i></a>
+                <% for( let i in productsArr ) { %>
+                    <div class="col-lg-4 col-md-6 col-12 mb-3 shadow p-2 mb-2 rounded products-card">
+                        <div>
+                            <img src="images/<%= productsArr[i].img %>" class="card-img-top" alt="<%= productsArr[i].name %>" style="height: 200px;">
+                            <div class="info-box">
+                                <a href="/detail" class="look-more">查看更多</a>
+                            </div> 
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12 mb-3 shadow p-2 mb-2 rounded">
-                    <div class="card">
-                        <img src="images/photo-1554295405-abb8fd54f153.jpg"  class="card-img-top" alt="123" style="height: 200px;">
+                           
                         <div class="card-body">
-                          <h5 class="card-title">桌椅套組</h5>
-                          <p class="card-text">NT 1,500</p>
-                          <a href="#" class="btn btn-danger">加到購物車</a>
+                            <h5 class="card-title text-center font-weight-bolder products-font-size"><%= productsArr[i].product %></h5>
+                            <p class="card-text text-dark text-center">
+                                <% if (productsArr[i].price === productsArr[i].origin) { %>
+                                    <span class="card-text text-secondary content-size">NT <%= productsArr[i].price %></span>
+                                <% } else { %>
+                                    <del class="mr-2">NT <%= productsArr[i].origin %></del>
+                                    <span class="card-text text-danger content-size">NT <%= productsArr[i].price %></span>
+                                <% } %>
+                            </p>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="btn btn-danger">加到購物車 <i class="fas fa-cart-arrow-down"></i></a>
+                                <a href="#" class="btn btn-danger">珍藏 <i class="fas fa-heart"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12 mb-3 shadow p-2 mb-2 rounded">
-                    <div class="card">
-                        <img src="images/photo-1506898667547-42e22a46e125.jpg" class="card-img-top" alt="..." style="height: 200px;">
-                        <div class="card-body">
-                          <h5 class="card-title">沙發椅</h5>
-                          <p class="card-text">NT 1,360</p>
-                          <a href="#" class="btn btn-danger">加到購物車</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12 mb-3 shadow p-2 mb-2 rounded">
-                    <div class="card">
-                        <img src="images/photo-1554295405-abb8fd54f153.jpg"  class="card-img-top" alt="123" style="height: 200px;">
-                        <div class="card-body">
-                          <h5 class="card-title">椅子</h5>
-                          <p class="card-text">NT 2,350</p>
-                          <a href="#" class="btn btn-danger">加到購物車</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-12 mb-3 shadow p-2 mb-2 rounded">
-                    <div class="card">
-                        <img src="images/photo-1573866926487-a1865558a9cf.jpg" class="card-img-top" alt="..." style="height: 200px;">
-                        <div class="card-body">
-                          <h5 class="card-title">復古沙發</h5>
-                          <p class="card-text">NT 5,000</p>
-                          <a href="#" class="btn btn-danger">加到購物車</a>
-                        </div>
-                    </div>
-                </div>
+                <% } %>
             </div>
         </div>
     </div>

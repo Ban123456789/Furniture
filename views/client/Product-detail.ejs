@@ -9,21 +9,21 @@
         <ol class="breadcrumb bg-white">
           <li class="breadcrumb-item"><a href="#" class="breadcrumb-style">首頁</a></li>
           <li class="breadcrumb-item"><a href="#" class="breadcrumb-style">全部商品</a></li>
-          <li class="breadcrumb-item active" aria-current="page">沙發</li>
+          <li class="breadcrumb-item active" aria-current="page"><%= productDetail.product %></li>
         </ol>
     </nav>
     
     <div class="row mx-5">
         <div class="col-lg-6">
             <figure class="figure">
-                <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="figure-img img-fluid rounded img-box" alt="...">
+                <img src="/images/<%= productDetail.img %>" class="figure-img img-fluid rounded img-box" alt="<%= productDetail.product %>">
             </figure>
         </div>
         
         <div class="col-lg-6">
             <div class="row border-bt">
                 <div class="col-6">
-                    <p class="title-size font-weight-bolder">沙發</p>
+                    <p class="title-size font-weight-bolder"><%= productDetail.product %></p>
                 </div>
                 <div class="col-6 text-right mt-3">
                     <a href="#" class="content-size font-weight-bolder text-danger">
@@ -32,24 +32,25 @@
                 </div>
             </div>
             
-            <p class="mt-4 content-size">型號: K5520</p>
+            <p class="mt-4 content-size">型號: <%= productDetail.id %></p>
             <p class="card-text text-dark text-right mt-5">
-                <del class="mr-2">NT 3,000</del>
-                <span class="card-text text-danger content-size">NT 3,000</span>
+                <% if (productDetail.origin === productDetail.price) { %>
+                    <span class="card-text text-secondary content-size">NT <%= productDetail.price %></span>
+                <% } else { %>
+                    <del class="mr-2">NT <%= productDetail.origin %></del>
+                    <span class="card-text text-danger content-size">NT <%= productDetail.price %></span>
+                <% } %>
             </p>
 
-            <form action="">
+            <form action="/detail/<%= productDetail.uid %>/total" method="POST">
                 <select name="quantity" class="quantity-style mt-4">
                     <option value="choose" disabled>請選擇你要得數量</option>
-                    <option value="1" selected>1 <span>個</span></option>
-                    <option value="2">2 <span>個</span></option>
-                    <option value="3">3 <span>個</span></option>
-                    <option value="4">4 <span>個</span></option>
-                    <option value="5">5 <span>個</span></option>
-                    <option value="6">6 <span>個</span></option>
+                    <% for( let i = 1; i <= 10; i++ ) { %>
+                        <option value="<%= i %>"><%= i %> <span><%= productDetail.unit %></span></option>
+                    <% } %>
                 </select>
                 <div class="text-right mt-4 content-size font-weight-bolder">
-                    <p class="d-inline-block mr-3">小計 <span class="border-lf">NT 3,000</span></p>
+                    <!-- <p class="d-inline-block mr-3">小計 <span class="border-lf">NT 3,000</span></p> -->
                     <input type="submit" value="加到購物車" class="btn btn-outline-danger font-weight-bolder">
                 </div>
             </form>
@@ -94,7 +95,7 @@
             <div class="detail-content">
                 <div id="detailOne" class="collapse" aria-labelledby="prductDetail" data-parent="#detail">
                     <div class="card-body">
-                        <p>寬88 深83 高69 公分<br/>內部材質:採用實木骨架+高密度泡棉<br/>外部材質:採用高級棉麻布(可拆洗)</p>
+                        <p><%= productDetail.datail %></p>
                     </div>
                 </div>
                 <div id="detailTwo" class="collapse" aria-labelledby="returnPro" data-parent="#detail">

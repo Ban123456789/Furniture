@@ -8,7 +8,7 @@
 </div>
 
 <div class="mt-5">
-    <p class="text-center title-size font-weight-bolder">全部商品</p>
+    <p class="text-center title-size font-weight-bolder"><%= category %> </p>
 </div>
 
 <div class="container modify-fix mb-5 mt-3">
@@ -31,7 +31,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-6">
-                        <p class="content-size font-weight-bolder font-space"><span>10</span>個商品</p>
+                        <p class="content-size font-weight-bolder font-space">
+                            <span><%= productsArr.length %></span>個商品
+                        </p>
                     </div>
                     <div class="col-6 d-flex justify-content-end">
                         <div class="dropdown">
@@ -53,7 +55,7 @@
                         <div>
                             <img src="images/<%= productsArr[i].img %>" class="card-img-top" alt="<%= productsArr[i].name %>" style="height: 200px;">
                             <div class="info-box">
-                                <a href="/detail" class="look-more">查看更多</a>
+                                <a href="/detail/<%= productsArr[i].uid %>" class="look-more">查看更多</a>
                             </div> 
                         </div>
                            
@@ -68,7 +70,9 @@
                                 <% } %>
                             </p>
                             <div class="d-flex justify-content-between">
-                                <a href="#" class="btn btn-danger">加到購物車 <i class="fas fa-cart-arrow-down"></i></a>
+                                <form action="/products/<%= productsArr[i].uid %>" method="POST">
+                                    <button type="submit" class="btn btn-danger">加到購物車 <i class="fas fa-cart-arrow-down"></i></button>
+                                </form>
                                 <a href="#" class="btn btn-danger">珍藏 <i class="fas fa-heart"></i></a>
                             </div>
                         </div>

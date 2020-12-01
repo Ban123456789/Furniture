@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
+const { route } = require('./dashboard');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -40,10 +41,46 @@ router.get('/products', function(req, res, next) {
           });
       });
 });
+// 加入購物車
+router.post('/products/:id', function(req, res){
+  let array = [];
+  let obj = {
+    id: req.params.id
+  };
+    array.push(obj);
+    console.log(array);
+    res.redirect('/products'); 
+});
 
 // todo 產品細節
-router.get('/detail', function(req, res, next) {
-  res.render('client/Product-detail', { title: 'Expressssss' });
+router.get('/detail/:id', function(req, res, next) {
+  const id = req.params.id;
+  let productDetail = {};
+    firebaseDb.ref('/products').once('value').then( products => {
+      products.forEach( data => {
+        if(data.val().uid === id){
+          productDetail = data.val();
+        };
+      });
+      // console.log(productDetail);
+      res.render('client/Product-detail', {
+        productDetail
+      });
+    });
+});
+// 計算價格
+router.post('/detail/:id/total', function(req, res){
+  const id = req.params.id;
+  const quantity = req.body.quantity;
+  let total = '';
+    firebaseDb.ref('/products').once('value').then( products => {
+      products.forEach( data => {
+        if(data.val().uid === id){
+          total = data.val().price * quantity;
+        };
+      });
+    });
+    res.redirect(`/detail/${id}`);
 });
 
 // todo 關於我們

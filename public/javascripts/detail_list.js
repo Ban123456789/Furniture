@@ -12,5 +12,4 @@ $(document).ready(function() {
 		$(this).toggleClass('active');
 		$(this).siblings('h5').slideToggle(2000);
 	});
-
 });

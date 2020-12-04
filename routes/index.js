@@ -41,15 +41,13 @@ router.get('/products', function(req, res, next) {
           });
       });
 });
-// 加入購物車
-router.post('/products/:id', function(req, res){
-  let array = [];
-  let obj = {
-    id: req.params.id
-  };
-    array.push(obj);
-    console.log(array);
-    res.redirect('/products'); 
+router.post('/addcart/:id', function(req, res){
+  const id = req.params.id;
+    req.session.productUid = id;
+    // res.cookie('cart', id, {
+    //   path: '/cart'
+    // });
+    res.redirect('/products');
 });
 
 // todo 產品細節

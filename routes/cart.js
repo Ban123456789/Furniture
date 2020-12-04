@@ -1,5 +1,7 @@
+const { json } = require('body-parser');
 var express = require('express');
 var router = express.Router();
+var firebaseDb = require('../connection/firebase_admin');;
 
 // todo 確認購物車內容
 router.get('/', function(req, res, next) {
@@ -8,7 +10,8 @@ router.get('/', function(req, res, next) {
 
 // todo 確認購物車內容
 router.get('/checkcart', function(req, res, next) {
-  res.render('cart/Check-cart');
+  
+    res.render('cart/Check-cart');
 });
 
 // todo 填寫個人資料

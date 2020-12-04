@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var session = require('express-session');
+var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -33,13 +34,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false }
-}))
+  saveUninitialized: false,
+  duration: 10*1000,
+  cookie: { 
+    secure: false,
+    // maxAge: 10*1000
+  }
+}));
+app.use(flash());
+
+const authcheck = function(req, res, next){
+  // console.log(req.session);
+  if(req.session.uid){
+    return next();
+  };
+    return res.redirect('/auth');
+};
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/cart', cartRouter);
+app.use('/cart', authcheck, cartRouter);
 app.use('/dashboard', dashboardRouter);
 
 

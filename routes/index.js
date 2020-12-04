@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
-const { route } = require('./dashboard');
+var firebase = require('../connection/firebase_client');
+const { route, use } = require('./dashboard');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,6 +12,75 @@ router.get('/', function(req, res, next) {
 // todo 首頁
 router.get('/main', function(req, res, next) {
   res.render('client/main', { title: 'Expressssss' });
+});
+
+// todo 登入註冊
+router.get('/auth', function(req, res, next){
+  const message = req.flash('message');
+    res.render('client/signin', {
+      message
+    });
+});
+// 註冊
+router.post('/auth/register', function(req, res){
+  const email = req.body.email;
+  const password = req.body.password;
+  const checkPassword = req.body.checkPassword;
+  const authPath = firebaseDb.ref('auth').push();
+  const id = authPath.key;
+
+    if(password === checkPassword){
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then((user) => {
+        req.flash('message', '註冊成功!');
+        authPath.set({
+          user: email,
+          uid: id
+        });
+        console.log('註冊成功');
+        res.redirect('/auth');
+      })
+      .catch((error) => {
+        let errMessage = '';
+        if(error.message === 'Password should be at least 6 characters'){
+            errMessage = '密碼至少六個字元!!!'
+        }else if(error.message === 'The email address is badly formatted.'){
+            errMessage = '請輸入有效郵件!!!';
+        }else if(error.message === 'The email address is already in use by another account.'){
+            errMessage = '此郵件已註冊過摟!!!'
+        };
+        req.flash('message', errMessage);
+        res.redirect('/auth');
+      });
+    }else{
+      req.flash('message', '請輸入相同的密碼><');
+      console.log('密碼與確認密碼不符');
+      res.redirect('/auth');
+    };
+});
+// 登入
+router.post('/auth/signin', function(req, res){
+  const email = req.body.email;
+  const password = req.body.password;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((user) => {
+      req.session.uid = user.user.uid;
+      req.session.email = user.user.email;
+      console.log('登入成功');
+      res.redirect('/products');
+    })
+    .catch((error) => {
+      let errorMessage = '';
+        if(error.code === 'auth/wrong-password'){
+            errorMessage = '密碼輸入錯誤!';
+        }else if(error.code === 'auth/user-not-found'){
+            errorMessage = '此帳號尚未註冊或是輸入錯誤!'
+        };
+        req.flash('message', errorMessage);
+        console.log('登入失敗');
+        res.redirect('/auth');
+    });
 });
 
 // todo 產品型錄
@@ -41,14 +111,23 @@ router.get('/products', function(req, res, next) {
           });
       });
 });
+// 加到購物車
 router.post('/addcart/:id', function(req, res){
   const id = req.params.id;
-    req.session.productUid = id;
-    // res.cookie('cart', id, {
-    //   path: '/cart'
-    // });
-    res.redirect('/products');
+    if(req.session.uid){
+      firebaseDb.ref('auth').once('value').then( auth => {
+        auth.forEach( data => {
+          if(data.val().user === req.session.email){
+            firebaseDb.ref(`/auth/${data.val().uid}/cart`).push().set(id);
+          };
+        });
+      });
+      res.redirect('/products');
+    }else{
+      res.redirect('/auth');
+    };
 });
+// 加到最愛
 
 // todo 產品細節
 router.get('/detail/:id', function(req, res, next) {

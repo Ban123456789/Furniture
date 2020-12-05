@@ -10,8 +10,48 @@ router.get('/', function(req, res, next) {
 
 // todo 確認購物車內容
 router.get('/checkcart', function(req, res, next) {
-  
-    res.render('cart/Check-cart');
+  let cartArr = [];
+  let authUid = '';
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          // console.log(data.val().user);
+          authUid = data.val().uid;
+        };
+      });
+      return firebaseDb.ref(`auth/${authUid}/cart`).once('value');
+    }).then( cart => {
+      firebaseDb.ref('products').once('value').then( products => {
+        products.forEach( data => {
+          cart.forEach( items => {
+            if(data.val().uid === items.val().uid){
+              cartArr.push(data.val());
+            };
+          });
+        });
+        res.render('cart/Check-cart', {
+          cartArr
+        });
+      });
+    });
+});
+// 刪除購物車內容
+router.post('/checkcart/del/:id', function(req, res){
+  const id = req.params.id;
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          firebaseDb.ref(`auth/${data.val().uid}/cart`).once('value').then( cart => {
+            cart.forEach( items => {
+              if(items.val().uid === id){
+                firebaseDb.ref(`auth/${data.val().uid}/cart`).child(items.val().cartUid).remove();
+                res.redirect('/cart/checkcart');
+              };
+            });
+          });
+        };
+      });
+    });
 });
 
 // todo 填寫個人資料

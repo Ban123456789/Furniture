@@ -114,11 +114,19 @@ router.get('/products', function(req, res, next) {
 // 加到購物車
 router.post('/addcart/:id', function(req, res){
   const id = req.params.id;
+  let quantity = '1';
     if(req.session.uid){
       firebaseDb.ref('auth').once('value').then( auth => {
         auth.forEach( data => {
           if(data.val().user === req.session.email){
-            firebaseDb.ref(`/auth/${data.val().uid}/cart`).push().set(id);
+            let cartPath = firebaseDb.ref(`/auth/${data.val().uid}/cart`).push();
+            let uid = cartPath.key;
+              firebaseDb.ref().once('value').then( data => {
+                cartPath.set({
+                uid: id,
+                cartUid: uid
+                });
+              });
           };
         });
       });

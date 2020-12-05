@@ -479,6 +479,10 @@ a:hover {
     font-weight: bolder;
   }
 }
+.checkcartImg {
+  width: 70px;
+  height: 30px;
+}
 
 /** 結帳去 */
 .total {
@@ -818,3 +822,4 @@ a:hover {
 		z-index: 5;
 	}
 }
+

@@ -39,29 +39,35 @@
         <table class="table table-striped" style="width: 1050px;">
             <thead class="thead-dark">
               <tr>
+                <th>排序</th>
                 <th>產品圖片</th>
                 <th>產品名稱</th>
                 <th>產品型號</th>
-                <th>產品規格</th>
                 <th>數量</th>
                 <th>價格</th>
                 <th>刪除</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>5 <span>單位</span></td>
-                <td class="text-danger"><span>NT</span> 5,100</td>
-                <td>
-                    <a href="">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                </td>
-              </tr>
+              <% for( let i in cartArr ) { %>
+                <tr>
+                  <td><%= i*1+1 %></td>
+                  <td>
+                    <img src="/images/<%= cartArr[i].img %>" alt="<%= cartArr[i].product %>" class="checkcartImg">
+                  </td>
+                  <td><%= cartArr[i].product %></td>
+                  <td><%= cartArr[i].id %></td>
+                  <td>1 <span><%= cartArr[i].unit %></span></td>
+                  <td class="text-danger"><span>NT</span> <%= cartArr[i].price %></td>
+                  <td>
+                      <form action="/cart/checkcart/del/<%= cartArr[i].uid %>" method="post">
+                        <button type="submit" class="btn btn-danger">
+                          <i class="fas fa-trash-alt"></i>
+                        </button>
+                      </form>
+                  </td>
+                </tr>
+              <% } %>
             </tbody>
         </table>
     </div>

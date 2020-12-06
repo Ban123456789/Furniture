@@ -44,7 +44,7 @@
                 <th>產品名稱</th>
                 <th>產品型號</th>
                 <th>數量</th>
-                <th>價格</th>
+                <th>單價</th>
                 <th>刪除</th>
               </tr>
             </thead>
@@ -76,7 +76,7 @@
       <tbody>
         <tr>
           <th scope="row">小計</th>
-          <td><span>NT</span> 11,500</td>
+          <td><span>NT</span> <%= total %></td>
         </tr>
         <tr>
           <th scope="row">運費</th>
@@ -90,7 +90,7 @@
         </tr>
         <tr>
           <th scope="row">總計</th>
-          <td><span>NT</span> 10,000</td>
+          <td><span>NT</span> <%= total+100 %></td>
         </tr>
       </tbody>
     </table>

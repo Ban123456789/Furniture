@@ -12,6 +12,7 @@ router.get('/', function(req, res, next) {
 router.get('/checkcart', function(req, res, next) {
   let cartArr = [];
   let authUid = '';
+  let cartObj = {};
     firebaseDb.ref('auth').once('value').then( auth => {
       auth.forEach( data => {
         if(data.val().user === req.session.email){
@@ -25,7 +26,10 @@ router.get('/checkcart', function(req, res, next) {
         products.forEach( data => {
           cart.forEach( items => {
             if(data.val().uid === items.val().uid){
-              cartArr.push(data.val());
+              cartObj = data.val();
+              cartObj.quantity = items.val().quantity;
+              console.log(cartObj);
+              cartArr.push(cartObj);
             };
           });
         });

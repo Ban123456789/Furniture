@@ -114,7 +114,9 @@ router.get('/products', function(req, res, next) {
 // 加到購物車
 router.post('/addcart/:id', function(req, res){
   const id = req.params.id;
+  let cartArr = [];
   let userUid = '';
+  let checkRepeat = 'false';
     if(req.session.uid){
       firebaseDb.ref('auth').once('value').then( auth => {
         auth.forEach( data => {
@@ -126,12 +128,28 @@ router.post('/addcart/:id', function(req, res){
       }).then( cart => {
         let cartPath = firebaseDb.ref(`/auth/${userUid}/cart`).push();
         let uid = cartPath.key;
-          cartPath.set({
-            uid: id,
-            cartUid: uid,
-            quantity: '1'
+          cart.forEach( items => {
+            cartArr.push(items.val().uid);
           });
-      });;
+        let set = new Set(cartArr);
+        // console.log(set.has(id));
+          if(set.has(id)){
+            cart.forEach( items => {
+              if(items.val().uid === id){
+                firebaseDb.ref(`/auth/${userUid}/cart`).child(items.val().cartUid).update({
+                  quantity: items.val().quantity*1+1
+                });
+              };
+            });
+          }else{
+            cartPath.set({
+              uid: id,
+              cartUid: uid,
+              quantity: '1'
+            });
+          };
+      });
+
       res.redirect('/products');
     }else{
       res.redirect('/auth');

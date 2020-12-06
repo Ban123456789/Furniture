@@ -57,7 +57,7 @@
                   </td>
                   <td><%= cartArr[i].product %></td>
                   <td><%= cartArr[i].id %></td>
-                  <td>1 <span><%= cartArr[i].unit %></span></td>
+                  <td><%= cartArr[i].quantity %> <span><%= cartArr[i].unit %></span></td>
                   <td class="text-danger"><span>NT</span> <%= cartArr[i].price %></td>
                   <td>
                       <form action="/cart/checkcart/del/<%= cartArr[i].uid %>" method="post">

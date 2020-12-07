@@ -21,10 +21,10 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
-                    <form action="">
+                    <form action="/dashboard/others/addcoupon" method="POST">
                         <div class="modal-body">
                             <div class="mb-3">
-                                <label for="coupon""">優惠券序號</label>
+                                <label for="coupon">優惠券序號</label>
                                 <input type="text" class="form-control" id="coupon" placeholder="序號" name="coupon" required
                                     data-toggle="tooltip" data-placement="top" title="大小寫有差喔!">
                             </div>
@@ -46,7 +46,7 @@
                 </div>
             </div>
             <table class="table table-hover">
-                <thead>
+                <thead class="thead-dark">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">優惠券序號</th>
@@ -57,45 +57,60 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>MK5520</td>
-                    <td>2020/11/20</td>
-                    <td>2020/11/30</td>
-                    <td>50%</td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
-                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                  <% for( let i in couponArr ) { %>
+                    <tr>
+                        <th scope="row"><%= i*1+1 %></th>
+                        <td><%= couponArr[i].coupon %></td>
+                        <td><%= moment(couponArr[i].createTime * 1000).format('YYYY/MM/DD') %></td>
+                        <td><%= moment(couponArr[i].expirydate * 1000).format('YYYY/MM/DD') %></td>
+                        <td><%= couponArr[i].discount %></td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                                <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal" data-target="#<%= couponArr[i].uid %>">編輯</button>
+                                <form action="/dashboard/others/del/<%= couponArr[i].uid %>" method="post">
+                                    <input type="submit" class="btn btn-outline-danger" value="刪除">
+                                </form>
+                            </div>
+                        </td>
+                        <!-- model -->
+                        <div class="modal fade" id="<%= couponArr[i].uid %>" tabindex="-1" role="dialog" aria-labelledby="<%= couponArr[i].uid %>" aria-hidden="true" data-backdrop="static">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="<%= couponArr[i].uid %>">新增優惠券</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <form action="/dashboard/others/edit/<%= couponArr[i].uid %>" method="POST">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="coupon">優惠券序號</label>
+                                            <input type="text" class="form-control" id="coupon" placeholder="序號" name="coupon" required
+                                                data-toggle="tooltip" data-placement="top" title="大小寫有差喔!" value="<%= couponArr[i].coupon %>">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="discount"">折扣 %</label>
+                                            <input type="text" class="form-control" id="discount" placeholder="折扣(%)" name="discount"
+                                                value="<%= couponArr[i].discount %>" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="expirydate"">到期日期</label>
+                                            <input type="text" class="form-control" id="expirydate" placeholder="到期日" name="expirydate" 
+                                                value="<%= moment(couponArr[i].expirydate * 1000).format('YYYY/MM/DD') %>" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                                        <input type="submit" class="btn btn-success" value="確認編輯">
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
                         </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>YY1234</td>
-                    <td>2020/11/20</td>
-                    <td>2020/12/20</td>
-                    <td>50%</td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
-                            <button type="button" class="btn btn-outline-danger">刪除</button>
-                        </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>MY520</td>
-                    <td>2020/11/20</td>
-                    <td>2020/01/10</td>
-                    <td>50%</td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
-                            <button type="button" class="btn btn-outline-danger">刪除</button>
-                        </div>
-                    </td>
-                  </tr>
+                    </tr>
+                  <% } %>
+                
                 </tbody>
             </table>
         </div>
@@ -118,7 +133,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
-                    <form action="">
+                    <form action="/dashboard/others/addnews" method="POST">
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="date"">生產日期</label>
@@ -131,55 +146,67 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
-                            <input type="submit" class="btn btn-success" value="新增">
+                            <input type="submit" class="btn btn-success" value="確認新增">
                         </div>
                     </form>
                 </div>
                 </div>
             </div>
             <table class="table table-hover">
-                <thead>
+                <thead class="thead-dark">
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">新增日期</th>
+                    <th scope="col">上架日期</th>
                     <th scope="col">內容</th>
                     <th scope="col">操作</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>2020/11/20</td>
-                    <td>Lorem ipsum dolor sit amet...</td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
-                            <button type="button" class="btn btn-outline-danger">刪除</button>
+                  <% for( let i in newsArr ) { %>
+                    <tr>
+                        <th scope="row"><%= i*1+1 %></th>
+                        <td><%= moment(newsArr[i].date * 1000).format('YYYY/MM/DD') %></td>
+                        <td><%= stringTag(newsArr[i].content).slice(0, 10) %> ...</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                                <button type="button" class="btn btn-outline-primary mr-2" data-toggle="modal" data-target="#<%= newsArr[i].uid %>">編輯</button>
+                                <form action="/dashboard/others/delnews/<%= newsArr[i].uid %>" method="post">
+                                    <button type="submit" class="btn btn-outline-danger">刪除</button>
+                                </form>
+                            </div>
+                        </td>
+                        <!-- Modal -->
+                        <div class="modal fade" id="<%= newsArr[i].uid %>" tabindex="-1" role="dialog" aria-labelledby="<%= newsArr[i].uid %>" aria-hidden="true" data-backdrop="static">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="<%= newsArr[i].uid %>">新增最新消息</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <form action="/dashboard/others/editnews/<%= newsArr[i].uid %>" method="POST">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="date"">生產日期</label>
+                                            <input type="text" class="form-control" id="date" placeholder="生產日期" name="date"
+                                                value="<%= moment(newsArr[i].date * 1000).format('YYYY/MM/DD') %>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="news"">最新消息</label>
+                                            <textarea class="form-control" id="news" rows="5" name="news"><%= newsArr[i].content %></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                                        <input type="submit" class="btn btn-success" value="確認編輯">
+                                    </div>
+                                </form>
+                            </div>
+                            </div>
                         </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>2020/11/30</td>
-                    <td>Lorem ipsum dolor sit amet...</td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
-                            <button type="button" class="btn btn-outline-danger">刪除</button>
-                        </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>2020/12/20</td>
-                    <td>Lorem ipsum dolor sit amet...</td>
-                    <td>
-                        <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                            <button type="button" class="btn btn-outline-primary mr-2">編輯</button>
-                            <button type="button" class="btn btn-outline-danger">刪除</button>
-                        </div>
-                    </td>
-                  </tr>
+                      </tr>
+                  <% } %>
                 </tbody>
             </table>
         </div>

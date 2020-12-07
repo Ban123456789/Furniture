@@ -32,18 +32,12 @@
     <p class="text-center font-weight-bolder title-size">最新消息</p>
     <table class="table table-hover border-bt">
         <tbody class="font-space">
-          <tr>
-            <th scope="row" class="text-right text-danger">2020/11/13</th>
-            <td>慶祝開幕，全館88折!</td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-right text-danger">2020/11/13</th>
-            <td>店長回歸，加碼滿5000折扣1000</td>
-          </tr>
-          <tr>
-            <th scope="row" class="text-right text-danger">2020/11/13</th>
-            <td>雙11折扣碼 輸入1111，折扣1.1折</td>
-          </tr>
+          <% for( let i in newsArr ) { %>
+            <tr>
+                <th scope="row" class="text-right text-danger"><%= moment(newsArr[i].date * 1000).format('YYYY/MM/DD') %></th>
+                <td><%= newsArr[i].content %></td>
+              </tr>
+          <% } %>
         </tbody>
       </table>
 </div>

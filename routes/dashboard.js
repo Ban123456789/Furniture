@@ -4,6 +4,8 @@ const { route } = require('.');
 // const { route } = require('.');
 var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
+var stringTag = require('striptags');
+var moment = require('moment');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -33,7 +35,7 @@ router.get('/addproducts', function(req, res, next) {
             // console.log(productsArr);
             res.render('dashboard/db-addproducts', {
                 categoriesArr,
-                productsArr
+                productsArr,
             });
         });
 });
@@ -164,7 +166,98 @@ router.get('/orders', function(req, res, next) {
 
 // todo 其他
 router.get('/others', function(req, res, next) {
-    res.render('dashboard/db-others');
+    let couponArr = [];
+    let newsArr = [];
+        firebaseDb.ref('coupon').once('value').then( coupon => {
+            coupon.forEach( data => {
+                couponArr.push(data.val());
+            });
+            return firebaseDb.ref('news').once('value');
+        }).then( news => {
+            news.forEach( data => {
+                newsArr.push(data.val());
+            });
+            res.render('dashboard/db-others', {
+                couponArr,
+                newsArr,
+                moment,
+                stringTag
+            });
+        });
+});
+// 新增優惠券
+router.post('/others/addcoupon', function(req, res){
+    const couponPath = firebaseDb.ref('coupon').push();
+    const key = couponPath.key;
+    const createTime = Math.floor(Date.now() / 1000);
+    const expirydate = new Date(req.body.expirydate).getTime() / 1000;
+        couponPath.set({
+            coupon: req.body.coupon,
+            discount: req.body.discount,
+            expirydate: expirydate,
+            createTime: createTime,
+            uid: key
+        }).then( success => {
+            console.log('新增優惠券成功');
+            res.redirect('/dashboard/others');
+        });
+});
+// 刪除優惠券
+router.post('/others/del/:id', function(req, res){
+    const id = req.params.id;
+        firebaseDb.ref('coupon').child(id).remove()
+        .then( success => {
+            console.log('刪除優惠券成功');
+            res.redirect('/dashboard/others');
+        });
+});
+// 編輯優惠券
+router.post('/others/edit/:id', function(req, res){
+    const id = req.params.id;
+    const expirydate = new Date(req.body.expirydate).getTime() / 1000;
+        firebaseDb.ref('coupon').child(id).update({
+            coupon: req.body.coupon,
+            discount: req.body.discount,
+            expirydate: expirydate,
+        }).then( success => {
+            console.log('編輯優惠券成功');
+            res.redirect('/dashboard/others');
+        });
+});
+// 新增最新消息
+router.post('/others/addnews', function(req, res){
+    const newsPath = firebaseDb.ref('news').push();
+    const key = newsPath.key;
+    const date = new Date(req.body.date).getTime() / 1000;
+        newsPath.set({
+            date: date,
+            content: req.body.news,
+            uid: key
+        }).then( success => {
+            console.log('新增文章成功');
+            res.redirect('/dashboard/others');
+        });
+});
+// 刪除最新消息
+router.post('/others/delnews/:id', function(req, res){
+    const id = req.params.id;
+        firebaseDb.ref('news').child(id).remove().then( success => {
+            console.log('刪除最新消息成功');
+            res.redirect('/dashboard/others');
+        });
+});
+// 編輯最新消息
+router.post('/others/editnews/:id', function(req, res){
+    const id = req.params.id;
+    const date = new Date(req.body.date).getTime() / 1000;
+        firebaseDb.ref('news').child(id).update({
+            date: date,
+            content: req.body.news
+        }).then( success => {
+            console.log('編輯最新消息成功');
+            res.redirect('/dashboard/others');
+        });
+
 });
 
 module.exports = router;

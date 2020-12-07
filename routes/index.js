@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
 var firebase = require('../connection/firebase_client');
+var moment = require('moment');
 const { route, use } = require('./dashboard');
 
 /* GET home page. */
@@ -11,7 +12,17 @@ router.get('/', function(req, res, next) {
 
 // todo 首頁
 router.get('/main', function(req, res, next) {
-  res.render('client/main', { title: 'Expressssss' });
+  let newsArr = [];
+    firebaseDb.ref('news').once('value').then( news => {
+      news.forEach( data => {
+        newsArr.push(data.val());
+      });
+      newsArr.reverse();
+      res.render('client/main', {
+        newsArr,
+        moment
+      });
+    });
 });
 
 // todo 登入註冊

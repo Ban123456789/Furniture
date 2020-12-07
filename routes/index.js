@@ -112,7 +112,11 @@ router.get('/products', function(req, res, next) {
                   productsArr.push(products.val());
               }else if(category === '全部商品'){
                   productsArr.push(products.val());
-              }
+              };
+          });
+          productsArr.forEach( data => {
+            data.price = data.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+            data.origin = data.origin.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
           });
           // console.log(productsArr);
           res.render('client/products', {
@@ -178,6 +182,8 @@ router.get('/detail/:id', function(req, res, next) {
           productDetail = data.val();
         };
       });
+      productDetail.price = productDetail.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+      productDetail.origin = productDetail.origin.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
       // console.log(productDetail);
       res.render('client/Product-detail', {
         productDetail

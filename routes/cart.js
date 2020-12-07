@@ -14,6 +14,7 @@ router.get('/checkcart', function(req, res, next) {
   let authUid = '';
   let cartObj = {};
   let total = 0;
+  let final = 0;
     firebaseDb.ref('auth').once('value').then( auth => {
       auth.forEach( data => {
         if(data.val().user === req.session.email){
@@ -36,10 +37,15 @@ router.get('/checkcart', function(req, res, next) {
         });
         cartArr.forEach( items => {
           total += items.price * items.quantity;
+          items.price = items.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         });
+        total = total.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+        final = total.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1+100;
+        final = final.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         res.render('cart/Check-cart', {
           cartArr,
-          total
+          total,
+          final
         });
       });
     });

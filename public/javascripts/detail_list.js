@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 $(document).ready(function() {
 	//以ul li包子選單
 	$('.cart>li>a').click(function(event) {

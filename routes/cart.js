@@ -68,6 +68,39 @@ router.post('/checkcart/del/:id', function(req, res){
       });
     });
 });
+// 驗證優惠券
+router.post('/checkcart/checkcoupon', function(req, res){ 
+  let couponObj = {};
+  let message = {};
+  const now = Math.floor(Date.now() / 1000);
+    firebaseDb.ref('coupon').once('value').then( coupon => {
+      coupon.forEach( data => {
+        if(req.body.coupon === data.val().coupon){
+          couponObj = data.val();
+        };
+      });
+      // console.log(couponObj);
+      if(couponObj && couponObj.expirydate >= now){
+        message = {
+          status: '連結成功',
+          coupon: couponObj,
+          effectiveDate: true
+        };
+      }else if(couponObj === {}){
+        message = {
+          status: '連結成功',
+          coupon: '沒有此序號'
+        };
+      }else if(couponObj.expirydate < now){
+        message = {
+          status: '連結成功',
+          coupon: '此序號已過期'
+        };
+      }; 
+      res.send(message);
+    });
+    res.end();
+});
 
 // todo 填寫個人資料
 router.get('/personal', function(req, res, next) {

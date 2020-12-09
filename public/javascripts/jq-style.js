@@ -8,6 +8,21 @@ $(document).ready(function () {
     $('.about-banner-first').fadeIn(1000);
     $('.about-banner-second').fadeIn(2000);
 
+    // 刪除購物車清單
+    // $('.delCart').click(function (e) { 
+        // e.preventDefault();
+        // let uid = $('.delCart').data('uid');
+            // console.log($('.delCart').data('uid'));
+            // $.ajax({
+            //     url: `/cart/checkcart/del/${uid}`,
+            //     type: 'POST',
+            //     success: function(res){
+            //         console.log(res);
+            //     },  
+            // });
+        
+    // });
+
     // check-cart coupon驗證
     $('#checkCoupon').click( function(e){
         e.preventDefault();

@@ -13,6 +13,7 @@ router.get('/checkcart', function(req, res, next) {
   let cartArr = [];
   let authUid = '';
   let cartObj = {};
+  let discount = '';
   let total = 0;
   let final = 0;
     firebaseDb.ref('auth').once('value').then( auth => {
@@ -20,6 +21,9 @@ router.get('/checkcart', function(req, res, next) {
         if(data.val().user === req.session.email){
           // console.log(data.val().user);
           authUid = data.val().uid;
+          if(data.val().discount){
+            discount = data.val().discount.replace(/%/g, "")/100;
+          }
         };
       });
       return firebaseDb.ref(`auth/${authUid}/cart`).once('value');
@@ -39,9 +43,11 @@ router.get('/checkcart', function(req, res, next) {
           total += items.price * items.quantity;
           items.price = items.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         });
+        console.log(discount);
         total = total.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-        final = total.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1+100;
+        final = total.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1*discount+100;
         final = final.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+        console.log(final);
         res.render('cart/Check-cart', {
           cartArr,
           total,
@@ -85,6 +91,15 @@ router.post('/checkcart/checkcoupon', function(req, res){
           coupon: couponObj,
           effectiveDate: true
         };
+        firebaseDb.ref('auth').once('value').then( auth => {
+          auth.forEach( data => {
+            if(req.session.email === data.val().user){
+              firebaseDb.ref(`auth/${data.val().uid}`).update({
+                discount: couponObj.discount
+              });
+            };
+          });
+        });
       }else if(couponObj.expirydate < now){
         message = {
           status: '連結成功',

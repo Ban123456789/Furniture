@@ -19,7 +19,14 @@ $(document).ready(function () {
             },
             dataType: 'JSON', // 預期從後端回傳的資料格式
             success: function(res){
-                console.log(res);
+                console.log(res.coupon);
+                if(res.coupon === '此序號已過期'){
+                    $('#couponResult').html(`<small class="text-danger">${res.coupon}</small>`);
+                }else if(res.coupon === '沒有此序號'){
+                    $('#couponResult').html(`<small class="text-danger">${res.coupon}</small>`);
+                }else{
+                    $('#couponResult').html(`<small class="text-success">此優惠券折扣 ${res.coupon.discount}</small>`);
+                };
             },
         });
     });

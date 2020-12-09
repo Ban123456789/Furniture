@@ -79,27 +79,26 @@ router.post('/checkcart/checkcoupon', function(req, res){
           couponObj = data.val();
         };
       });
-      // console.log(couponObj);
       if(couponObj && couponObj.expirydate >= now){
         message = {
           status: '連結成功',
           coupon: couponObj,
           effectiveDate: true
         };
-      }else if(couponObj === {}){
-        message = {
-          status: '連結成功',
-          coupon: '沒有此序號'
-        };
       }else if(couponObj.expirydate < now){
         message = {
           status: '連結成功',
           coupon: '此序號已過期'
         };
+      }else{
+        message = {
+          status: '連結成功',
+          coupon: '沒有此序號'
+        };
       }; 
+      console.log(couponObj);
       res.send(message);
     });
-    res.end();
 });
 
 // todo 填寫個人資料

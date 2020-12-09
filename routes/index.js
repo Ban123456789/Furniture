@@ -174,17 +174,24 @@ router.post('/addcart/:id', function(req, res){
 router.get('/detail/:id', function(req, res, next) {
   const id = req.params.id;
   let productDetail = {};
+  let sameCategory = '';
+  let sameArr = [];
     firebaseDb.ref('/products').once('value').then( products => {
       products.forEach( data => {
         if(data.val().uid === id){
           productDetail = data.val();
+          sameCategory = data.val().category;
+        };
+        if(data.val().category === sameCategory){
+          sameArr.push(data.val());
         };
       });
       productDetail.price = productDetail.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
       productDetail.origin = productDetail.origin.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-      // console.log(productDetail);
+      // console.log(sameArr);
       res.render('client/Product-detail', {
-        productDetail
+        productDetail,
+        sameArr
       });
     });
 });
@@ -229,7 +236,7 @@ router.get('/favorites', function(req, res, next) {
               }
             })
           });
-          console.log(favArr);
+          // console.log(favArr);
           res.render('client/favorites', {
             favArr
           });

@@ -26,7 +26,7 @@
                     <p class="title-size font-weight-bolder"><%= productDetail.product %></p>
                 </div>
                 <div class="col-6 text-right mt-3">
-                    <a href="#" class="content-size font-weight-bolder text-danger">
+                    <a href="#" class="content-size font-weight-bolder text-danger favBtn" data-uid="<%= productDetail.uid %>">
                         加入最愛 <i class="far fa-heart"></i>
                     </a>
                 </div>
@@ -117,118 +117,34 @@
 
     <!-- 熱門商品 -->
     <div class="mt-4">
-        <p class="font-weight-bolder products-font-size">熱門商品</p>
+        <p class="font-weight-bolder products-font-size">相關商品</p>
     </div>
     <div class="swiper-container" id="swiperTwo">
         <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
-                <div>
-                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
-                    <div class="info-box-indetail">
-                        <a href="/detail" class="look-more">查看更多</a>
+            <% for( let i in sameArr ) { %>
+                <div class="swiper-slide">
+                    <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
+                        <div>
+                            <img src="/images/<%= sameArr[i].img %>" class="card-img-top" alt="<%= sameArr[i].product %>" style="height: 180px;">
+                            <div class="info-box-indetail">
+                                <a href="/detail/<%= sameArr[i].uid %>" class="look-more">查看更多</a>
+                            </div> 
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title font-weight-bolder products-font-size"><%= sameArr[i].product %></h5>
+                            <p class="card-text text-dark text-right">
+                                <% if (sameArr[i].origin === sameArr[i].price) { %>
+                                    <span class="card-text text-danger content-size">NT <%= sameArr[i].price %></span>
+                                <% }else{ %>
+                                    <del class="mr-2">NT <%= sameArr[i].origin %></del>
+                                    <span class="card-text text-danger content-size">NT <%= sameArr[i].price %></span>
+                                <% } %>
+                            </p>
+                        </div>
                     </div> 
                 </div>
-                   
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
-                    <p class="card-text text-dark text-right">
-                        <del class="mr-2">NT 3,000</del>
-                        <span class="card-text text-danger content-size">NT 3,000</span>
-                    </p>
-                </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
-                <div>
-                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
-                    <div class="info-box-indetail">
-                        <a href="/detail" class="look-more">查看更多</a>
-                    </div> 
-                </div>
-                   
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
-                    <p class="card-text text-dark text-right">
-                        <del class="mr-2">NT 3,000</del>
-                        <span class="card-text text-danger content-size">NT 3,000</span>
-                    </p>
-                </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
-                <div>
-                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
-                    <div class="info-box-indetail">
-                        <a href="/detail" class="look-more">查看更多</a>
-                    </div> 
-                </div>
-                   
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
-                    <p class="card-text text-dark text-right">
-                        <del class="mr-2">NT 3,000</del>
-                        <span class="card-text text-danger content-size">NT 3,000</span>
-                    </p>
-                </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
-                <div>
-                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
-                    <div class="info-box-indetail">
-                        <a href="/detail" class="look-more">查看更多</a>
-                    </div> 
-                </div>
-                   
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
-                    <p class="card-text text-dark text-right">
-                        <del class="mr-2">NT 3,000</del>
-                        <span class="card-text text-danger content-size">NT 3,000</span>
-                    </p>
-                </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
-                <div>
-                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
-                    <div class="info-box-indetail">
-                        <a href="/detail" class="look-more">查看更多</a>
-                    </div> 
-                </div>
-                   
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
-                    <p class="card-text text-dark text-right">
-                        <del class="mr-2">NT 3,000</del>
-                        <span class="card-text text-danger content-size">NT 3,000</span>
-                    </p>
-                </div>
-            </div>
-          </div>
-          <div class="swiper-slide">
-            <div class="shadow p-2 mb-2 rounded products-card bg-gray detail-card">
-                <div>
-                    <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="card-img-top" alt="沙發" style="height: 200px;">
-                    <div class="info-box-indetail">
-                        <a href="/detail" class="look-more">查看更多</a>
-                    </div> 
-                </div>
-                   
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bolder products-font-size">沙發</h5>
-                    <p class="card-text text-dark text-right">
-                        <del class="mr-2">NT 3,000</del>
-                        <span class="card-text text-danger content-size">NT 3,000</span>
-                    </p>
-                </div>
-            </div>
-          </div>
+          <% } %>
         </div>
         <div class="swiper-pagination"></div>
     </div>

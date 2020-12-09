@@ -41,8 +41,11 @@ $(document).ready(function () {
                     $('#couponResult').html(`<small class="text-danger">${res.coupon}</small>`);
                 }else{
                     $('#couponResult').html(`<small class="text-success">此優惠券折扣 ${res.coupon.discount}</small>`);
-                };
+                }; 
             },
         });
+        setTimeout(function(){
+            location.reload();
+        },1000)
     });
 });

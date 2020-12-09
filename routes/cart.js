@@ -105,11 +105,29 @@ router.post('/checkcart/checkcoupon', function(req, res){
           status: '連結成功',
           coupon: '此序號已過期'
         };
+        firebaseDb.ref('auth').once('value').then( auth => {
+          auth.forEach( data => {
+            if(req.session.email === data.val().user){
+              firebaseDb.ref(`auth/${data.val().uid}`).update({
+                discount: '100%'
+              });
+            };
+          });
+        });
       }else{
         message = {
           status: '連結成功',
           coupon: '沒有此序號'
         };
+        firebaseDb.ref('auth').once('value').then( auth => {
+          auth.forEach( data => {
+            if(req.session.email === data.val().user){
+              firebaseDb.ref(`auth/${data.val().uid}`).update({
+                discount: '100%'
+              });
+            };
+          });
+        });
       }; 
       console.log(couponObj);
       res.send(message);

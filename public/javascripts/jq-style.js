@@ -7,7 +7,42 @@ $(document).ready(function () {
     // about page banner content
     $('.about-banner-first').fadeIn(1000);
     $('.about-banner-second').fadeIn(2000);
-
+    
+    // todo products
+    // 加入珍藏
+    $('.favBtn').click(function (e) { 
+        e.preventDefault();
+        $.ajax({
+            url: '/products/fav',
+            type: 'POST',
+            data: {
+                uid: $(this).data('uid')
+            },
+            // dataType: 'JSON', // 預期從後端回傳的資料格式
+            success: function(res){
+                console.log(res);
+                if(res.status === '尚未登入'){
+                    window.location.replace('/auth');
+                }else if(res.status === '已登入' && res.repeat === false){
+                    swal({
+                        icon: "success",
+                        text: "成功加入最愛",
+                        button: false,
+                        timer: 2000
+                      });
+                }else{
+                    swal({
+                        icon: "warning",
+                        text: "此商品已加入最愛",
+                        button: false,
+                        timer: 2000
+                      });
+                };
+            },
+        });
+    });
+    
+    // todo check-cart
     // 刪除購物車清單
     // $('.delCart').click(function (e) { 
         // e.preventDefault();
@@ -46,6 +81,6 @@ $(document).ready(function () {
         });
         setTimeout(function(){
             location.reload();
-        },1000)
+        },1000) //這裡做1秒延遲重整是因為我資料送到資料庫的時間太慢，導致我頁面重整完，我資料還沒進到資料庫
     });
 });

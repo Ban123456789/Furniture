@@ -11,7 +11,7 @@
     <p class="text-center title-size font-weight-bolder">喜愛商品</p>
     <div class="row mx-5 fav-base-line">
         <div class="col-sm-6 content-size font-weight-bolder fav-count">
-            我的收藏 (<span>3</span>)
+            我的收藏 (<span><%= favArr.length %></span>)
         </div>
         <div class="col-sm-6">
             <div class="dropdown text-right">
@@ -26,64 +26,46 @@
         </div>
     </div>
     <div class="d-flex flex-column mx-5">
-        <div class="row my-3 fav-card">
-            <div class="col-lg-3 col-md-5 fav-img-card">
-                <img src="images/photo-1554295405-abb8fd54f153.jpg" class="fav-img" alt="">
-            </div>
-            <div class="col-lg-9 col-md-7 fav-content">
-                <p class="products-font-size text-light font-weight-bolder">沙發</p>
-                <p class="text-light font-weight-bolder">型號 : <span>K5520</span></p>
-                <!-- 768px 以上顯示 -->
-                <div class="row fav-card-btn">
-                    <div class="col-7 text-light fav-price">
-                        <p class="del-price mr-2"><del><span>NT</span> 5,5000</del></p>
-                        <p>NT<span> 3,3000</span></p>
-                    </div>
-                    <div class="col-5 text-light fav-add-card">
-                        <a href="">加到購物車</a>
-                    </div>
+        <% for( let i in favArr ) { %>
+            <div class="row my-3 fav-card">
+                <a href="#" class="Xfav" data-uid="<%= favArr[i].uid %>">X</a>
+                <div class="col-lg-3 col-md-5 fav-img-card">
+                    <img src="images/<%= favArr[i].img %>" class="fav-img" alt="<%= favArr[i].product %>">
                 </div>
-                <!-- 768px以下顯示 -->
-                <div class="fav-content-sm">
-                    <div class="text-light fav-price">
-                        <p class="del-price mr-2"><del><span>NT</span> 5,5000</del></p>
-                        <p>NT<span> 3,3000</span></p>
+                <div class="col-lg-9 col-md-7 fav-content">
+                    <p class="products-font-size text-light font-weight-bolder"><%= favArr[i].product %></p>
+                    <p class="text-light font-weight-bolder">型號 : <span><%= favArr[i].id %></span></p>
+                    <!-- 768px 以上顯示 -->
+                    <div class="row fav-card-btn">
+                        <div class="col-7 text-light fav-price">
+                            <% if (favArr[i].origin === favArr[i].price) { %>
+                                <p>NT<span> <%= favArr[i].price %></span></p>
+                            <% }else{ %>
+                                <p class="del-price mr-2"><del><span>NT</span> <%= favArr[i].origin %></del></p>
+                                <p>NT<span> <%= favArr[i].price %></span></p>
+                            <% } %>
+                        </div>
+                        <div class="col-5 text-light fav-add-card">
+                            <a href="" data-uid="<%= favArr[i].uid %>">加到購物車</a>
+                        </div>
                     </div>
-                    <div class="text-light fav-add-card">
-                        <a href="">加到購物車</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row my-3 fav-card">
-            <div class="col-lg-3 col-md-5 fav-img-card">
-                <img src="images/neonbrand-Wp7t4cWN-68-unsplash.jpg" class="fav-img" alt="">
-            </div>
-            <div class="col-lg-9 col-md-7 fav-content">
-                <p class="products-font-size text-light font-weight-bolder">沙發</p>
-                <p class="text-light font-weight-bolder">型號 : <span>K5520</span></p>
-                <!-- 768px 以上顯示 -->
-                <div class="row fav-card-btn">
-                    <div class="col-7 text-light fav-price">
-                        <p class="del-price mr-2"><del><span>NT</span> 5,5000</del></p>
-                        <p>NT<span> 3,3000</span></p>
-                    </div>
-                    <div class="col-5 text-light fav-add-card">
-                        <a href="">加到購物車</a>
-                    </div>
-                </div>
-                <!-- 768px以下顯示 -->
-                <div class="fav-content-sm">
-                    <div class="text-light fav-price">
-                        <p class="del-price mr-2"><del><span>NT</span> 5,5000</del></p>
-                        <p>NT<span> 3,3000</span></p>
-                    </div>
-                    <div class="text-light fav-add-card">
-                        <a href="">加到購物車</a>
+                    <!-- 768px以下顯示 -->
+                    <div class="fav-content-sm">
+                        <div class="text-light fav-price">
+                            <% if (favArr[i].origin === favArr[i].price) { %>
+                                <p>NT<span> <%= favArr[i].price %></span></p>
+                            <% }else{ %>
+                                <p class="del-price mr-2"><del><span>NT</span> <%= favArr[i].origin %></del></p>
+                                <p>NT<span> <%= favArr[i].price %></span></p>
+                            <% } %>
+                        </div>
+                        <div class="text-light fav-add-card">
+                            <a href="" data-uid="<%= favArr[i].uid %>">加到購物車</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <% } %>
     </div>
 </div>
 

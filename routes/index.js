@@ -131,7 +131,6 @@ router.post('/addcart/:id', function(req, res){
   const id = req.params.id;
   let cartArr = [];
   let userUid = '';
-  let checkRepeat = 'false';
     if(req.session.uid){
       firebaseDb.ref('auth').once('value').then( auth => {
         auth.forEach( data => {
@@ -170,7 +169,6 @@ router.post('/addcart/:id', function(req, res){
       res.redirect('/auth');
     };
 });
-// 加到最愛
 
 // todo 產品細節
 router.get('/detail/:id', function(req, res, next) {
@@ -212,7 +210,76 @@ router.get('/about', function(req, res, next) {
 
 // todo 我的收藏
 router.get('/favorites', function(req, res, next) {
-  res.render('client/favorites', { title: 'Expressssss' });
+  let user = '';
+  let favArr = [];
+    if(req.session.uid){
+      firebaseDb.ref('auth').once('value').then( auth => {
+        auth.forEach( data => {
+          if(data.val().user === req.session.email){
+            user = data.val().uid
+          };
+        });
+        return firebaseDb.ref(`auth/${user}/favProducts`).once('value');
+      }).then( favProducts => {
+        firebaseDb.ref('products').once('value').then( products => {
+          products.forEach( data => {
+            favProducts.forEach( item => {
+              if(data.val().uid === item.val().uid){
+                favArr.push(data.val());
+              }
+            })
+          });
+          console.log(favArr);
+          res.render('client/favorites', {
+            favArr
+          });
+        });
+      });
+    }else{
+      res.redirect('/auth');
+    };
+});
+// 新增收藏
+router.post('/products/fav', function(req, res){
+  const id = req.body.uid;
+  let favArr = [];
+  let user = ''
+    if(req.session.uid){
+      firebaseDb.ref('auth').once('value').then( auth => {
+        auth.forEach( data => {
+          if(data.val().user === req.session.email){
+            user = data.val().uid;
+          };
+        });
+        return firebaseDb.ref(`auth/${user}/favProducts`).once('value');
+      }).then( favProducts => {
+        let favPath = firebaseDb.ref(`auth/${user}/favProducts`).push();
+        let key = favPath.key;
+          favProducts.forEach( data => {
+            favArr.push(data.val().uid);
+          });
+        let set = new Set(favArr);
+          if(set.has(id)){
+            res.send({
+              status: '已登入',
+              repeat: true
+            });
+          }else{
+            favPath.set({
+              uid: id,
+              favUid: key
+            });
+            res.send({
+              status: '已登入',
+              repeat: false
+            });
+          };
+      });
+    }else{
+      res.send({
+        status: '尚未登入',
+      });
+    };
 });
 
 

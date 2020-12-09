@@ -576,6 +576,13 @@ a:hover {
   position: relative;
   padding: 10px 3px;
 }
+.Xfav {
+  position: absolute;
+    top: 2px;
+    right: 7px;
+  font-size: 20px;
+  font-weight: bolder;
+}
 .fav-card-btn {
   width: 400px;
   border-radius: 10px;
@@ -821,5 +828,16 @@ a:hover {
 		opacity: 1;
 		z-index: 5;
 	}
+}
+
+/* 提示視窗動畫 */
+.swal-text {
+  padding: 17px;
+  display: block;
+  margin: 22px;
+  text-align: center;
+  color: #393a38;
+  font-size: 20px;
+  font-weight: bolder;
 }
 

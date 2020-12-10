@@ -60,14 +60,9 @@
                   <td><%= cartArr[i].quantity %> <span><%= cartArr[i].unit %></span></td>
                   <td class="text-danger"><span>NT</span> <%= cartArr[i].price %></td>
                   <td>
-                      <!-- <form action="/cart/checkcart/del/" method="post">
-                        <button type="submit" class="btn btn-danger">
-                          
-                        </button>
-                      </form> -->
-                      <a href="#" class="btn btn-outline-danger delCart" data-uid="<%= cartArr[i].uid %>">
-                        <i class="fas fa-trash-alt"></i>
-                      </a>
+                    <a href="#" class="btn btn-outline-danger delCart" data-uid="<%= cartArr[i].uid %>">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
                   </td>
                 </tr>
               <% } %>
@@ -104,6 +99,9 @@
 
       <div class="mt-5 mb-4 text-right">
           <a href="/products" class="btn btn-success">更多..</a>
-          <a href="/cart/personal" class="btn btn-success">下一步</a>
+          <!-- <a href="/cart/personal" class="btn btn-success">下一步</a> -->
+          <form action="" method="POST" class="d-inline">
+            <input type="submit" class="btn btn-success" value="下一步"></input>
+          </form>
       </div>
 </div>

@@ -17,6 +17,7 @@ router.get('/checkcart', function(req, res, next) {
   let discount = '';
   let total = 0;
   let final = 0;
+  let payable = {};
     firebaseDb.ref('auth').once('value').then( auth => {
       auth.forEach( data => {
         if(data.val().user === req.session.email){
@@ -49,6 +50,12 @@ router.get('/checkcart', function(req, res, next) {
         final = total.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1*discount+100;
         final = final.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         // console.log(final);
+        payable = {
+          total: total,
+          discount: discount,
+          shipping: 100,
+          final: final
+        };
         res.render('cart/Check-cart', {
           cartArr,
           total,
@@ -132,10 +139,12 @@ router.post('/checkcart/checkcoupon', function(req, res){
           });
         });
       }; 
-      console.log(couponObj);
+      // console.log(couponObj);
       res.send(message);
     });
 });
+// 下一步 => 送出應付金額
+router.post('/checkcart/');
 
 // todo 填寫個人資料
 router.get('/personal', function(req, res, next) {

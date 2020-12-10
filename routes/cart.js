@@ -16,7 +16,7 @@ router.get('/checkcart', function(req, res, next) {
   let cartObj = {};
   let payUid = '';
   let payArr = [];
-  let discount = '';
+  let discount = '1';
   let total = 0;
   let final = 0;
   let payable = {};
@@ -220,12 +220,64 @@ router.post('/personal/send', function(req, res){
         };
         res.redirect('/cart/pay');
     });
-});
-// 回上一步個資只能更改，不能再新增(每隻帳號只有一組個資，訂單備註可以空)
+}); // 回上一步個資只能更改，不能再新增(每隻帳號只有一組個資，訂單備註可以空)
 
 // todo 結帳去
 router.get('/pay', function(req, res, next) {
-    res.render('cart/Pay');
+  let user = '';
+  let productsArr = [];
+  let cartArr = [];
+  let cartObj = {};
+  let payableObj = {};
+  let personalObj = {};
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          user = data.val().uid;
+        };
+      });
+      return firebaseDb.ref('products').once('value');
+    }).then( products => {
+      products.forEach( data => {
+        productsArr.push(data.val());
+      });
+      return firebaseDb.ref(`auth/${user}/cart`).once('value');
+    }).then( cart => {
+      cart.forEach( data => {
+        productsArr.forEach( items => {
+          if(items.uid === data.val().uid){
+            cartObj = items;
+            cartObj.quantity = data.val().quantity;
+            cartArr.push(cartObj);
+          }
+        });
+      });
+      return firebaseDb.ref(`auth/${user}/payable`).once('value');
+    }).then( payable => {
+      payable.forEach( data => {
+        if(data.val().discount === 1){
+          payableObj = data.val();
+          payableObj.discount = '未使用優惠券'
+        }else{
+          payableObj = data.val();
+          payableObj.discount = payableObj.discount*100;
+        };
+      });
+      return firebaseDb.ref(`auth/${user}/personal`).once('value');
+    }).then( personal => {
+      personal.forEach( data => {
+        personalObj = data.val();
+      });
+      cartArr.forEach( data => {
+        data.price = data.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+      });
+      // console.log(cartArr);
+      res.render('cart/Pay', {
+        cartArr,
+        payableObj,
+        personalObj
+      });
+    });
 });
 
 // todo 完成訂單

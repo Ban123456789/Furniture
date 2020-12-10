@@ -36,33 +36,24 @@
     <hr class="bg-dark">
     
     <div class="row">
-        <div class="col-xl-7">
+        <div class="col-xl-6">
             <div class="container table-responsive-md">
                 <table class="table shopping-detail">
                     <thead>
                       <tr>
-                        <th class="total">訂單總計</th>
+                        <th colspan="5" class="total">訂單總計</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th>1</th>
-                        <td>沙發</td>
-                        <td><span>NT</span> 3,300 <span>/組</span></td>
-                        <td>x1</td>
-                      </tr>
-                      <tr>
-                        <th>2</th>
-                        <td>沙發</td>
-                        <td><span>NT</span> 3,300 <span>/組</span></td>
-                        <td>x1</td>
-                      </tr>
-                      <tr>
-                        <th>3</th>
-                        <td>沙發</td>
-                        <td><span>NT</span> 3,300 <span>/組</span></td>
-                        <td>x1</td>
-                      </tr>
+                      <% for( let i in cartArr ) { %>
+                        <tr>
+                          <td width=10><%= i*1+1 %></td>
+                          <td><img src="/images/<%= cartArr[i].img %>" alt="<%= cartArr[i].product %>" style="width: 70px; height: 30px;"></td>
+                          <td><%= cartArr[i].product %></td>
+                          <td><span>NT</span> <%= cartArr[i].price %> <span>/ <%= cartArr[i].unit %></span></td>
+                          <td>X<%= cartArr[i].quantity %></td>
+                        </tr>
+                      <% } %>
                     </tbody>
                 </table>
             </div>
@@ -71,29 +62,37 @@
               <tbody>
                 <tr>
                   <th>小計</th>
-                  <td class="text-right origin-pay"><span>NT</span> 9,900</td>
+                  <td class="text-right origin-pay"><span>NT</span> <%= payableObj.total %></td>
                 </tr>
                 <tr>
                   <th>優惠券</th>
-                  <td class="text-right"><span>折扣</span> 80%</td>
+                  <% if (payableObj.discount === '未使用優惠券') { %>
+                    <td class="text-right text-secondary"><%= payableObj.discount %></td>
+                  <% }else{ %>
+                    <td class="text-right text-success"><span>折扣</span> <%= payableObj.discount %>%</td>
+                  <% } %>
                 </tr>
                 <tr>
                   <th>運費</th>
-                  <td class="text-right"><span>NT</span> 100</td>
+                  <td class="text-right"><span>NT</span> <%= payableObj.shipping %></td>
                 </tr>
                 <tr>
                   <th>付款方式</th>
-                  <td class="text-right">中國信託</td>
+                  <% if (personalObj.payfor === 'cash') { %>
+                    <td class="text-right">貨到付款</td>
+                  <% }else if(personalObj.payfor === 'creditcard'){ %>
+                    <td class="text-right">中國信託</td>
+                  <% } %>
                 </tr>
                 <tr>
                   <th>總計</th>
-                  <td class="text-right final-pay"><span>NT</span> 8,020</td>
+                  <td class="text-right final-pay"><span>NT</span> <%= payableObj.final %></td>
                 </tr>
               </tbody>
             </table>
 
         </div>
-        <div class="col-xl-5 d-flex align-items-start mb-3">
+        <div class="col-xl-6 d-flex align-items-start mb-3">
           <div class="container table-responsive-md">
             <table class="table customer-detail">
                 <thead>
@@ -104,19 +103,19 @@
                 <tbody>
                   <tr>
                     <th>Email</th>
-                    <td>qwe@google.com</td>
+                    <td><%= personalObj.email %></td>
                   </tr>
                   <tr>
                     <th>顧客姓名</th>
-                    <td>小名</td>
+                    <td><%= personalObj.name %></td>
                   </tr>
                   <tr>
                     <th>顧客電話</th>
-                    <td>0912345678</td>
+                    <td><%= personalObj.phone %></td>
                   </tr>
                   <tr>
                     <th>顧客地址</th>
-                    <td>彰化縣員林鎮中山路1段578號</td>
+                    <td><%= personalObj.address %></td>
                   </tr>
                 </tbody>
             </table>

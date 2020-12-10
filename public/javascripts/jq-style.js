@@ -7,6 +7,9 @@ $(document).ready(function () {
     // about page banner content
     $('.about-banner-first').fadeIn(1000);
     $('.about-banner-second').fadeIn(2000);
+
+    // 去除所有 input 的空格
+    $.trim($('#phone').val());
     
     // todo products
     // 加入珍藏

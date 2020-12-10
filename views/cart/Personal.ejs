@@ -35,41 +35,58 @@
 
     <hr class="bg-dark">
     
-    <form>
-        <div class="form-group">
-          <label for="email"">請輸入電子郵件</label>
-          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="輸入電子郵件" name="Email" required>
-          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    <form action="/cart/personal/send" method="POST">
+        <div class="form-group" id="personalForm">
+            <label for="email"">請輸入電子郵件</label>
+            <input type="email" class="form-control" id="email" aria-describedby="emailHelp" 
+                placeholder="輸入電子郵件" name="email" 
+                <% if (personalObj.uid) { %>
+                    value="<%= personalObj.email %>" 
+                <% } %>
+                required>
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
-          <label for="name">收件人姓名</label>
-          <input type="text" class="form-control" id="name" placeholder="輸入姓名" name="name" required>
+            <label for="name">收件人姓名</label>
+            <input type="text" class="form-control" id="name" placeholder="輸入姓名" name="name"
+              <% if (personalObj.uid) { %>
+                  value="<%= personalObj.name %>" 
+              <% } %>
+                required>
         </div>
         <div class="form-group">
             <label for="phone">收件人電話</label>
-            <input type="number" class="form-control" id="phone" placeholder="輸入電話" name="phone" required>
+            <input type="text" class="form-control" id="phone" placeholder="輸入電話" name="phone"
+                <% if (personalObj.uid) { %>
+                    value="<%= personalObj.phone %>" 
+                <% } %>
+              required>
         </div>
         <div class="form-group">
             <label for="address">收件人地址</label>
-            <input type="text" class="form-control" id="address" placeholder="輸入地址" name="address" required>
+            <input type="text" class="form-control" id="address" placeholder="輸入地址" name="address"
+                <% if (personalObj.uid) { %>
+                    value="<%= personalObj.address %>" 
+                <% }%>
+              required>
         </div>
         <div class="form-group">
             <label for="payfor">付款方式</label>
             <select name="payfor" id="payfor" class="custom-select">
                 <option value="" disabled>請選擇付款方式</option>
-                <option value="ATM" selected>ATM 轉帳</option>
+                <option value="cash" selected>貨到付款</option>
                 <option value="creditcard">中國信託</option>
             </select>
         </div>
         <div class="form-group">
-            <label for="textarea"">Example textarea</label>
-            <textarea class="form-control" id="textarea" rows="3"></textarea>
+            <label for="textarea"">訂單備註</label>
+            <textarea class="form-control" id="textarea" rows="3" name="remarks"></textarea>
         </div>
 
         <!-- 按鈕 -->
         <div class="mt-5 mb-4 text-right">
-            <a href="" class="btn btn-success">上一步</a>
+            <a href="/cart/checkcart" class="btn btn-success">上一步</a>
             <input type="submit" value="下一步" class="btn btn-success">
         </div>
-      </form>
+    </form>
 </div>

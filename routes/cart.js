@@ -1,5 +1,6 @@
 const { json } = require('body-parser');
 var express = require('express');
+const { route } = require('.');
 var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');;
 
@@ -34,7 +35,7 @@ router.get('/checkcart', function(req, res, next) {
             if(data.val().uid === items.val().uid){
               cartObj = data.val();
               cartObj.quantity = items.val().quantity;
-              console.log(cartObj);
+              // console.log(cartObj);
               cartArr.push(cartObj);
             };
           });
@@ -43,11 +44,11 @@ router.get('/checkcart', function(req, res, next) {
           total += items.price * items.quantity;
           items.price = items.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         });
-        console.log(discount);
+        // console.log(discount);
         total = total.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         final = total.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1*discount+100;
         final = final.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-        console.log(final);
+        // console.log(final);
         res.render('cart/Check-cart', {
           cartArr,
           total,
@@ -138,8 +139,64 @@ router.post('/checkcart/checkcoupon', function(req, res){
 
 // todo 填寫個人資料
 router.get('/personal', function(req, res, next) {
-    res.render('cart/Personal');
+  let personalObj = {};
+  let user = '';
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          user = data.val().uid;
+        };
+      });
+      return firebaseDb.ref(`auth/${user}/personal`).once('value');
+    }).then( personal => {
+      personal.forEach( data => {
+        personalObj = data.val();
+      });
+      // console.log(personalObj);
+      res.render('cart/Personal', {
+        personalObj,
+      });
+    });
 });
+// 送出個人資訊
+router.post('/personal/send', function(req, res){
+  let personal = {
+    email: req.body.email,
+    name: req.body.name,
+    phone: req.body.phone,
+    address: req.body.address,
+    payfor: req.body.payfor,
+    remarks: req.body.remarks
+  };
+  let user = '';
+  let arr = [];
+  let check = '';
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          user = data.val().uid;
+        };
+      });
+      return firebaseDb.ref(`auth/${user}/personal`).once('value');
+    }).then( personalData => {
+      let personalPath = firebaseDb.ref(`auth/${user}/personal`).push();
+      let key = personalPath.key;
+        personalData.forEach( data => {
+          arr.push(data.val().uid);
+          check = data.val().uid;
+        });
+        // console.log(arr);
+      let set = new Set(arr);
+        if(set.has(check)){
+          firebaseDb.ref(`auth/${user}/personal`).child(check).update(personal);
+        }else{
+          personal.uid = key
+          personalPath.set(personal);
+        };
+        res.redirect('/cart/pay');
+    });
+});
+// 回上一步個資只能更改，不能再新增(每隻帳號只有一組個資，訂單備註可以空)
 
 // todo 結帳去
 router.get('/pay', function(req, res, next) {

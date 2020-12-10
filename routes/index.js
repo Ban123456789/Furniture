@@ -288,6 +288,29 @@ router.post('/products/fav', function(req, res){
       });
     };
 });
+// 刪除收藏
+router.post('/products/delfav', function(req, res){
+  const id = req.body.uid;
+  let user = '';
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          user = data.val().uid;
+        }
+      });
+      return firebaseDb.ref(`auth/${user}/favProducts`).once('value');
+    }).then( favProducts => {
+      favProducts.forEach( data => {
+        if(data.val().uid === id){
+          firebaseDb.ref(`auth/${user}/favProducts`).child(data.val().favUid).remove();
+          res.send({
+            status: '連線成功',
+            checkDel: true
+          });
+        };
+      });
+    });
+});
 
 
 module.exports = router;

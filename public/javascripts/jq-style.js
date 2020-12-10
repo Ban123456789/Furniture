@@ -29,18 +29,42 @@ $(document).ready(function () {
                         text: "成功加入最愛",
                         button: false,
                         timer: 2000
-                      });
+                    });
                 }else{
                     swal({
                         icon: "warning",
                         text: "此商品已加入最愛",
                         button: false,
                         timer: 2000
-                      });
+                    });
                 };
             },
         });
     });
+    // 刪除珍藏
+        $('.Xfav').click(function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/products/delfav',
+                type: 'POST',
+                data: {
+                    uid: $(this).data('uid')
+                },
+                success: function(res){
+                    if(res.checkDel){
+                        setTimeout(function(){
+                            location.reload();
+                            swal({
+                                icon: "warning",
+                                text: "已刪除最愛",
+                                button: false,
+                                timer: 2000
+                            });
+                        },1000)
+                    };
+                },
+            }); 
+        });
     
     // todo check-cart
     // 刪除購物車清單

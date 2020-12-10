@@ -60,11 +60,14 @@
                   <td><%= cartArr[i].quantity %> <span><%= cartArr[i].unit %></span></td>
                   <td class="text-danger"><span>NT</span> <%= cartArr[i].price %></td>
                   <td>
-                      <form action="/cart/checkcart/del/<%= cartArr[i].uid %>" method="post">
+                      <!-- <form action="/cart/checkcart/del/" method="post">
                         <button type="submit" class="btn btn-danger">
-                          <i class="fas fa-trash-alt"></i>
+                          
                         </button>
-                      </form>
+                      </form> -->
+                      <a href="#" class="btn btn-outline-danger" data-uid="<%= cartArr[i].uid %>">
+                        <i class="fas fa-trash-alt"></i>
+                      </a>
                   </td>
                 </tr>
               <% } %>

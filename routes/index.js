@@ -127,8 +127,8 @@ router.get('/products', function(req, res, next) {
       });
 });
 // 加到購物車
-router.post('/addcart/:id', function(req, res){
-  const id = req.params.id;
+router.post('/products/addcart', function(req, res){
+  const id = req.body.uid;
   let cartArr = [];
   let userUid = '';
     if(req.session.uid){
@@ -164,9 +164,14 @@ router.post('/addcart/:id', function(req, res){
           };
       });
 
-      res.redirect('/products');
+      res.send({
+        status: '已連線',
+        addCart: true
+      });
     }else{
-      res.redirect('/auth');
+      res.send({
+        status: '尚未連線',
+      });
     };
 });
 

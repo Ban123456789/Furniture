@@ -42,29 +42,53 @@ $(document).ready(function () {
         });
     });
     // 刪除珍藏
-        $('.Xfav').click(function(e){
-            e.preventDefault();
-            $.ajax({
-                url: '/products/delfav',
-                type: 'POST',
-                data: {
-                    uid: $(this).data('uid')
-                },
-                success: function(res){
-                    if(res.checkDel){
-                        setTimeout(function(){
-                            location.reload();
-                            swal({
-                                icon: "warning",
-                                text: "已刪除最愛",
-                                button: false,
-                                timer: 2000
-                            });
-                        },1000)
-                    };
-                },
-            }); 
+    $('.Xfav').click(function(e){
+        e.preventDefault();
+        $.ajax({
+            url: '/products/delfav',
+            type: 'POST',
+            data: {
+                uid: $(this).data('uid')
+            },
+            success: function(res){
+                if(res.checkDel){
+                    setTimeout(function(){
+                        location.reload();
+                        swal({
+                            icon: "warning",
+                            text: "已刪除最愛",
+                            button: false,
+                            timer: 2000
+                        });
+                    },1000)
+                };
+            },
+        }); 
+    });
+    // 加入購物車
+    $('.addCart').click(function (e) { 
+        e.preventDefault();
+        $.ajax({
+            url: '/products/addcart',
+            type: 'POST',
+            data: {
+                uid: $(this).data('uid')
+            },
+            success: function(res){
+                if(res.status === '已連線' && res.addCart === true){
+                    swal({
+                        icon: "success",
+                        text: "成功加入購物車",
+                        button: false,
+                        timer: 2000
+                    });
+                }else{
+                    window.location.replace('/auth');
+                }
+            },
         });
+    });
+    
     
     // todo check-cart
     // 刪除購物車清單

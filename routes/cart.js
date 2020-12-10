@@ -14,6 +14,8 @@ router.get('/checkcart', function(req, res, next) {
   let cartArr = [];
   let authUid = '';
   let cartObj = {};
+  let payUid = '';
+  let payArr = [];
   let discount = '';
   let total = 0;
   let final = 0;
@@ -41,6 +43,11 @@ router.get('/checkcart', function(req, res, next) {
             };
           });
         });
+      });
+      return firebaseDb.ref(`auth/${authUid}/payable`).once('value');
+    }).then( pay => {
+      let payPath = firebaseDb.ref(`auth/${authUid}/payable`).push();
+      let key = payPath.key;
         cartArr.forEach( items => {
           total += items.price * items.quantity;
           items.price = items.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
@@ -54,14 +61,25 @@ router.get('/checkcart', function(req, res, next) {
           total: total,
           discount: discount,
           shipping: 100,
-          final: final
+          final: final,
         };
+        pay.forEach( data => {
+          payArr.push(data.val().uid);
+          payUid = data.val().uid;
+        });
+      let set = new Set(payArr);
+        if(set.has(payUid)){
+          firebaseDb.ref(`auth/${authUid}/payable`).child(payUid).update(payable);
+        }else{
+          payable.uid = key;
+          payPath.set(payable);
+        };
+
         res.render('cart/Check-cart', {
           cartArr,
           total,
           final
         });
-      });
     });
 });
 // 刪除購物車內容
@@ -143,8 +161,6 @@ router.post('/checkcart/checkcoupon', function(req, res){
       res.send(message);
     });
 });
-// 下一步 => 送出應付金額
-router.post('/checkcart/');
 
 // todo 填寫個人資料
 router.get('/personal', function(req, res, next) {

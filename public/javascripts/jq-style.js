@@ -92,19 +92,23 @@ $(document).ready(function () {
     
     // todo check-cart
     // 刪除購物車清單
-    // $('.delCart').click(function (e) { 
-        // e.preventDefault();
-        // let uid = $('.delCart').data('uid');
-            // console.log($('.delCart').data('uid'));
-            // $.ajax({
-            //     url: `/cart/checkcart/del/${uid}`,
-            //     type: 'POST',
-            //     success: function(res){
-            //         console.log(res);
-            //     },  
-            // });
-        
-    // });
+    $('.delCart').click(function (e) { 
+        e.preventDefault();
+        $.ajax({
+            url: '/cart/checkcart/delcart',
+            type: 'POST',
+            data: {
+                uid: $(this).data('uid'),
+            },
+            success: function(res){
+                if(res.status === '刪除成功'){
+                    setTimeout(function(){
+                        location.reload();
+                    },1000);
+                };
+            },
+        });
+    });
 
     // check-cart coupon驗證
     $('#checkCoupon').click( function(e){

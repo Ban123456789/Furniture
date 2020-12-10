@@ -57,8 +57,8 @@ router.get('/checkcart', function(req, res, next) {
     });
 });
 // 刪除購物車內容
-router.post('/checkcart/del/:id', function(req, res){
-  const id = req.params.id;
+router.post('/checkcart/delcart', function(req, res){
+  const id = req.body.uid;
     firebaseDb.ref('auth').once('value').then( auth => {
       auth.forEach( data => {
         if(data.val().user === req.session.email){
@@ -66,7 +66,9 @@ router.post('/checkcart/del/:id', function(req, res){
             cart.forEach( items => {
               if(items.val().uid === id){
                 firebaseDb.ref(`auth/${data.val().uid}/cart`).child(items.val().cartUid).remove();
-                res.redirect('/cart/checkcart');
+                res.send({
+                  status: '刪除成功'
+                });
               };
             });
           });

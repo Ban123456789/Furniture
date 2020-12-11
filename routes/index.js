@@ -180,15 +180,19 @@ router.get('/detail/:id', function(req, res, next) {
   const id = req.params.id;
   let productDetail = {};
   let sameCategory = '';
+  let productsArr = [];
   let sameArr = [];
-    firebaseDb.ref('/products').once('value').then( products => {
+    firebaseDb.ref('products').once('value').then( products => {
       products.forEach( data => {
+        productsArr.push(data.val());
         if(data.val().uid === id){
           productDetail = data.val();
           sameCategory = data.val().category;
         };
-        if(data.val().category === sameCategory){
-          sameArr.push(data.val());
+      });
+      productsArr.forEach( data => {
+        if(data.category === sameCategory){
+          sameArr.push(data);
         };
       });
       productDetail.price = productDetail.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');

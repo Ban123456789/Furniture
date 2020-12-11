@@ -35,11 +35,13 @@ router.get('/checkcart', function(req, res, next) {
       firebaseDb.ref('products').once('value').then( products => {
         products.forEach( data => {
           cart.forEach( items => {
-            if(data.val().uid === items.val().uid){
+            if(data.val().uid === items.val().uid && data.val().ontheshelf === 'true'){
               cartObj = data.val();
               cartObj.quantity = items.val().quantity;
               // console.log(cartObj);
               cartArr.push(cartObj);
+            }else if(data.val().uid === items.val().uid && data.val().ontheshelf === 'false'){
+              firebaseDb.ref(`auth/${authUid}/cart`).child(items.val().cartUid).remove();
             };
           });
         });

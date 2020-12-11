@@ -108,9 +108,9 @@ router.get('/products', function(req, res, next) {
           return firebaseDb.ref('products').once('value');
       }).then( data => {
           data.forEach( products => {
-              if(category === products.val().category){
+              if(category === products.val().category && products.val().ontheshelf === 'true'){
                   productsArr.push(products.val());
-              }else if(category === '全部商品'){
+              }else if(category === '全部商品' && products.val().ontheshelf === 'true'){
                   productsArr.push(products.val());
               };
           });
@@ -236,9 +236,11 @@ router.get('/favorites', function(req, res, next) {
         firebaseDb.ref('products').once('value').then( products => {
           products.forEach( data => {
             favProducts.forEach( item => {
-              if(data.val().uid === item.val().uid){
+              if(data.val().uid === item.val().uid && data.val().ontheshelf === 'true'){
                 favArr.push(data.val());
-              }
+              }else if(data.val().uid === item.val().uid && data.val().ontheshelf === 'false'){
+                firebaseDb.ref(`auth/${user}/favProducts`).child(item.val().favUid).remove();
+              };
             })
           });
           // console.log(favArr);
@@ -270,6 +272,7 @@ router.post('/products/fav', function(req, res){
           favProducts.forEach( data => {
             favArr.push(data.val().uid);
           });
+          
         let set = new Set(favArr);
           if(set.has(id)){
             res.send({

@@ -113,7 +113,7 @@ router.post('/product/creat', function(req, res){
             price: req.body.price,
             stock: req.body.stock,
             unit: req.body.unit,
-            ontheshelf,
+            ontheshelf: ontheshelf,
             uid: key
         }).then( () => {
             console.log('新增商品成功');
@@ -142,7 +142,7 @@ router.post('/product/edit/:id', function(req, res){
         price: req.body.price,
         stock: req.body.stock,
         unit: req.body.unit,
-        ontheshelf
+        ontheshelf: ontheshelf
     };
         firebaseDb.ref('products').child(id).update(data).then( () => {
             console.log('編輯文章成功');

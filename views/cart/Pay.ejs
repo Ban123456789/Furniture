@@ -125,6 +125,8 @@
     
     <div class="text-right mb-4">
       <a href="/cart/personal" class="btn btn-success mr-2">回個人資料</a>
-      <a href="/cart/finish" class="btn btn-success">確認結帳</a>
+      <form class="d-inline" action="/cart/linepay" method="POST">
+        <input type="submit" class="btn btn-success" value="確認結帳"></input>
+      </form>
     </div>
 </div>

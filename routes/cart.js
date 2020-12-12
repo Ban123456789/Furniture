@@ -2,7 +2,11 @@ const { json } = require('body-parser');
 var express = require('express');
 const { route } = require('.');
 var router = express.Router();
-var firebaseDb = require('../connection/firebase_admin');;
+var firebaseDb = require('../connection/firebase_admin');
+const uuid = require('uuid4');
+const crypto = require('crypto-js');
+const axios = require('axios');
+require('dotenv').config();
 
 // todo 確認購物車內容
 router.get('/', function(req, res, next) {
@@ -55,8 +59,8 @@ router.get('/checkcart', function(req, res, next) {
           items.price = items.price.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         });
         // console.log(discount);
-        total = total.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
-        final = total.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1*discount+100;
+        total = total.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,'); // 加入千分號
+        final = total.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1*discount+100; // 刪除千分號
         final = final.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
         // console.log(final);
         payable = {
@@ -279,6 +283,85 @@ router.get('/pay', function(req, res, next) {
         payableObj,
         personalObj
       });
+    });
+});
+// line-pay 結帳
+router.post('/linepay', function(req, res){
+  let user = '';
+  let productsArr = [];
+  let payableObj = {};
+  let cartArr = [];
+  let order = {};
+  let packages = {};
+  let products = [];
+  const id = Math.floor(Date.now() / 1000);
+  const key = process.env.LINE_PAY_CHANNALSECRET;
+  const nonce = uuid();
+  const requestUrl = '/v3/payments/request';
+
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          user = data.val().uid;
+        };
+      });
+      return firebaseDb.ref('products').once('value');
+    }).then( products => {
+      products.forEach( data => {
+        productsArr.push(data.val());
+      });
+      return firebaseDb.ref(`auth/${user}/payable`).once('value');
+    }).then( payable => {
+      payable.forEach( data => {
+        payableObj = data.val();
+      });
+      return firebaseDb.ref(`auth/${user}/cart`).once('value');
+    }).then( cart => {
+      cart.forEach( data => {
+        productsArr.forEach( items => {
+          if(data.val().uid === items.uid){
+            items.quantity = data.val().quantity;
+            cartArr.push(items);
+          };
+        });
+      });
+      cartArr.forEach( data => {
+        products.push ({
+          'name': data.product,
+          'quantity': data.quantity*1,
+          'price': data.price*1
+        });
+      });
+      packages = {
+        'id': id,
+        'amount': payableObj.final.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1 - 100,
+        'name': '購買商品',
+        'products': products
+      };
+      order = {
+        'amount': payableObj.final.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1 - 100,
+        'currency': 'TWD',
+        'orderId': payableObj.uid,
+        'packages': [packages],
+        'redirectUrls': {
+          'confirmUrl': 'https://6ddcf789.ngrok.io/confitmUrl',
+          'cancelUrl': 'https://6ddcf789.ngrok.io/cancelUrl'
+        }
+      };
+      let encrypt = crypto.HmacSHA256(key + requestUrl + JSON.stringify(order) + nonce, key);
+      let hmacBase64 = crypto.enc.Base64.stringify(encrypt);
+      let configs = {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-LINE-ChannelId': process.env.LINE_PAY_CHANNALID,
+          'X-LINE-Authorization-Nonce': nonce,
+          'X-LINE-Authorization': hmacBase64
+        }
+      };
+        axios.post('https://sandbox-api-pay.line.me/v3/payments/request', order, configs)
+        .then( res => {
+          console.log(res.data);
+        });
     });
 });
 

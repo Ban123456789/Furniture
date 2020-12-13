@@ -1,11 +1,10 @@
-const { json } = require('body-parser');
 var express = require('express');
-const { route } = require('.');
 var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
 const uuid = require('uuid4');
 const crypto = require('crypto-js');
 const axios = require('axios');
+// const linepay = require('../connection/line_pay');
 require('dotenv').config();
 
 // todo 確認購物車內容
@@ -295,9 +294,6 @@ router.post('/linepay', function(req, res){
   let packages = {};
   let products = [];
   const id = Math.floor(Date.now() / 1000);
-  const key = process.env.LINE_PAY_CHANNALSECRET;
-  const nonce = uuid();
-  const requestUrl = '/v3/payments/request';
 
     firebaseDb.ref('auth').once('value').then( auth => {
       auth.forEach( data => {
@@ -332,24 +328,35 @@ router.post('/linepay', function(req, res){
           'price': data.price*1
         });
       });
+      products.push({
+        'name': '運費',
+        'quantity': 1,
+        'price': 100
+      });
       packages = {
         'id': id,
-        'amount': payableObj.final.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1 - 100,
+        'amount': payableObj.final.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1,
         'name': '購買商品',
         'products': products
       };
       order = {
-        'amount': payableObj.final.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1 - 100,
+        'amount': payableObj.final.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1,
         'currency': 'TWD',
-        'orderId': payableObj.uid,
+        'orderId': payableObj.uid + id,
         'packages': [packages],
         'redirectUrls': {
-          'confirmUrl': 'https://6ddcf789.ngrok.io/confitmUrl',
+          'confirmUrl': 'http://127.0.0.1:3000/cart/finish',
           'cancelUrl': 'https://6ddcf789.ngrok.io/cancelUrl'
         }
       };
+
+      // 未使用套件
+      const key = process.env.LINE_PAY_CHANNALSECRET;
+      const nonce = uuid();
+      const requestUrl = '/v3/payments/request';
       let encrypt = crypto.HmacSHA256(key + requestUrl + JSON.stringify(order) + nonce, key);
       let hmacBase64 = crypto.enc.Base64.stringify(encrypt);
+      // request 的 headers
       let configs = {
         headers: {
           'Content-Type': 'application/json',
@@ -358,16 +365,57 @@ router.post('/linepay', function(req, res){
           'X-LINE-Authorization': hmacBase64
         }
       };
+      
         axios.post('https://sandbox-api-pay.line.me/v3/payments/request', order, configs)
-        .then( res => {
-          console.log(res.data);
+        .then( success => {
+          console.log(success.data);
+            if(success.data.returnCode === '0000'){
+              res.redirect(success.data.info.paymentUrl.web);
+            };
         });
     });
 });
 
 // todo 完成訂單
 router.get('/finish', function(req, res, next) {
-    res.render('cart/Finish');
+  let user = '';
+  let payableObj = {};
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          user = data.val().uid;
+        };
+      });
+      return firebaseDb.ref(`auth/${user}/payable`).once('value');
+    }).then( payable => {
+      payable.forEach( data => {
+        payableObj = data.val();
+      });
+      let item = {
+        amount: payableObj.final.toString().replace(/[ ]/g, "").replace(/,/gi, '')*1,
+        currency: 'TWD'
+      };
+      const key = process.env.LINE_PAY_CHANNALSECRET;
+      const nonce = uuid();
+      const comfirmUrl = `/v3/payments/${req.query.transactionId}/confirm`;
+      let encrypt = crypto.HmacSHA256(key + comfirmUrl + JSON.stringify(item) + nonce, key);
+      let HmacBase64 = crypto.enc.Base64.stringify(encrypt);
+      // comfirm 的 headers
+      let comfirmConfigs = {
+        headers: {
+          'Content-Type': 'application/json',
+          'X-LINE-ChannelId': process.env.LINE_PAY_CHANNALID,
+          'X-LINE-Authorization-Nonce': nonce,
+          'X-LINE-Authorization': HmacBase64
+        }
+      };
+        axios.post(`https://sandbox-api-pay.line.me/v3/payments/${req.query.transactionId}/confirm`, item, comfirmConfigs)
+        .then( success => {
+          console.log(success.data);
+          console.log(success.data.info.payInfo, success.data.info.packages);
+        });
+        res.render('cart/Finish');
+    });
 });
 
 module.exports = router;

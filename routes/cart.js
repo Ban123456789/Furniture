@@ -380,6 +380,10 @@ router.post('/linepay', function(req, res){
 router.get('/finish', function(req, res, next) {
   let user = '';
   let payableObj = {};
+  let productsArr = [];
+  let cartArr = [];
+  let personalObj = {};
+  const now = Math.floor(Date.now() / 1000);
     firebaseDb.ref('auth').once('value').then( auth => {
       auth.forEach( data => {
         if(data.val().user === req.session.email){
@@ -413,8 +417,41 @@ router.get('/finish', function(req, res, next) {
         .then( success => {
           console.log(success.data);
           console.log(success.data.info.payInfo, success.data.info.packages);
+            if(success.data.returnCode === '0000'){
+              firebaseDb.ref('products').once('value').then( products => {
+                products.forEach( data => {
+                  productsArr.push(data.val());
+                });
+                return firebaseDb.ref(`auth/${user}/cart`).once('value');
+              }).then( cart => {
+                cart.forEach( data => {
+                  productsArr.forEach( items => {
+                    if(data.val().uid === items.uid){
+                      cartArr.push(items);
+                    };
+                  });
+                });
+                return firebaseDb.ref(`auth/${user}/personal`).once('value');
+              }).then( personal => {
+                personal.forEach( data => {
+                  personalObj = data.val();
+                });
+                return firebaseDb.ref('order').once('value');
+              }).then( order => {
+                const orderPath = firebaseDb.ref('order').push();
+                const key = orderPath.key;
+                  orderPath.set({
+                    uid: key,
+                    creatOrder: now,
+                    personal: personalObj,
+                    cart: cartArr,
+                    payInfo: success.data.info.payInfo,
+                    packages: success.data.info.packages
+                  });
+                  res.render('cart/Finish');
+              });
+            };
         });
-        res.render('cart/Finish');
     });
 });
 

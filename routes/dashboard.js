@@ -1,7 +1,4 @@
 var express = require('express');
-const { route } = require('.');
-// const { app } = require('firebase-admin');
-// const { route } = require('.');
 var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
 var stringTag = require('striptags');
@@ -161,7 +158,25 @@ router.post('/product/del/:id', function(req, res){
 
 // todo 訂單查詢
 router.get('/orders', function(req, res, next) {
-    res.render('dashboard/db-orders');
+    let orderArr = [];
+        firebaseDb.ref('order').once('value').then( order => {
+            order.forEach( data => {
+                orderArr.push(data.val());
+            });
+            res.render('dashboard/db-orders', {
+                orderArr,
+                moment
+            });
+        });
+});
+// 編輯買家資訊
+router.post('/orders/editpersonal', function(req, res){
+    const id = req.body.uid;
+    let name = req.body.name;
+    let email = req.body.email;
+    let phone = req.body.phone;
+    let address = req.body.address;
+        res.send({name,email,phone,address,id});
 });
 
 // todo 其他

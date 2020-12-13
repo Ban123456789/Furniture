@@ -135,4 +135,24 @@ $(document).ready(function () {
             location.reload();
         },1000) //這裡做1秒延遲重整是因為我資料送到資料庫的時間太慢，導致我頁面重整完，我資料還沒進到資料庫
     });
+
+    // todo dashboard
+    // oder
+    $('.orderEdit').click(function (e) { 
+        e.preventDefault();
+        const uid = $(this).data('uid');
+        console.log($("input[name='editname']").data(uid));
+        // todo 今天要做 分辨出 input 之間的 data-uid
+        $.ajax({
+            url: '/dashboard/orders/editpersonal',
+            type: 'POST',
+            data: {
+                uid: uid,
+                name: name,
+            },
+            success: function (res) {
+                console.log(res);
+            }
+        });
+    });
 });

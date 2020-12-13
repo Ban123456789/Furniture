@@ -75,75 +75,119 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>2020/11/21</td>
-            <td>林小明</td>
-            <td>0912345678</td>
-            <td>qwer@gmail.com</td>
-            <td>彰化縣北斗鎮中山路1段387號B棟5樓</td>
-            <td>
-                <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                    <button type="button" class="btn btn-outline-secondary">編輯</button>
-                    <button type="button" class="btn btn-outline-secondary">查看</button>
+          <% for( let i in orderArr ) { %>
+            <tr>
+                <th scope="row"><%= i*1+1 %></th>
+                <td><%= moment(orderArr[i].creatOrder * 1000).format('YYYY/MM/DD') %></td>
+                <td><%= orderArr[i].personal.name %></td>
+                <td><%= orderArr[i].personal.phone %></td>
+                <td><%= orderArr[i].personal.email %></td>
+                <td><%= orderArr[i].personal.address %></td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
+                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#<%= orderArr[i].personal.uid %>edit">編輯</button>
+                        <!-- 編輯 Modal -->
+                        <div class="modal fade" id="<%= orderArr[i].personal.uid %>edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"><%= orderArr[i].personal.name %> 的訂單</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <label for="editname"">買家姓名</label>
+                                        <input type="text" class="form-control" id="editname" placeholder="姓名" name="editname" 
+                                            value="<%= orderArr[i].personal.name %>"
+                                            data-uid="<%= orderArr[i].personal.uid %>"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editphone"">商品電話</label>
+                                        <input type="text" class="form-control" id="editphone" placeholder="電話" name="editphone" 
+                                            value="<%= orderArr[i].personal.phone %>"
+                                            data-uid="<%= orderArr[i].personal.uid %>"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editemail"">買家 Email</label>
+                                        <input type="text" class="form-control" id="editemail" placeholder="Email" name="editemail" 
+                                            value="<%= orderArr[i].personal.email %>"
+                                            data-uid="<%= orderArr[i].personal.uid %>"
+                                            required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editaddress"">買家地址</label>
+                                        <input type="text" class="form-control" id="editaddress" placeholder="地址" name="editaddress" 
+                                            value="<%= orderArr[i].personal.address %>"
+                                            data-uid="<%= orderArr[i].personal.uid %>"
+                                            required>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                                    <button type="button" class="btn btn-success orderEdit" data-uid="<%= orderArr[i].personal.uid %>">儲存編輯</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
 
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        其他
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item text-danger" href="#">刪除</a>
+                        <button type="button" class="btn btn-outline-secondary"  data-toggle="modal" data-target="#<%= orderArr[i].personal.uid %>checkorder">查看</button>
+                        <!-- 查看 Modal -->
+                        <div class="modal fade" id="<%= orderArr[i].personal.uid %>checkorder" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+                            <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"><%= orderArr[i].personal.name %> 的訂單</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table table-striped">
+                                        <thead>
+                                          <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">商品名稱</th>
+                                            <th scope="col">商品售價</th>
+                                            <th scope="col">購買數量</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for( let j in orderArr[i].packages[0].products ) { %>
+                                            <tr>
+                                                <th scope="row"><%= j*1+1 %></th>
+                                                <td><%= orderArr[i].packages[0].products[j].name %></td>
+                                                <td><%= orderArr[i].packages[0].products[j].price %></td>
+                                                <td><%= orderArr[i].packages[0].products[j].quantity %></td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                    <p class="font-weight-bolder">付款方式: <%= orderArr[i].personal.payfor %></p>
+                                    <p class="font-weight-bolder">總額: <%= orderArr[i].packages[0].amount %></p>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            其他
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                <a class="dropdown-item text-danger" href="#" data-uid="<%= orderArr[i].personal.uid %>">刪除</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>2020/11/21</td>
-            <td>林小明</td>
-            <td>0912345678</td>
-            <td>qwer@gmail.com</td>
-            <td>彰化縣北斗鎮中山路1段387號B棟5樓</td>
-            <td>
-                <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                    <button type="button" class="btn btn-outline-secondary">編輯</button>
-                    <button type="button" class="btn btn-outline-secondary">查看</button>
-
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        其他
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item text-danger" href="#">刪除</a>
-                        </div>
-                    </div>
-                </div>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>2020/11/21</td>
-            <td>林小明</td>
-            <td>0912345678</td>
-            <td>qwer@gmail.com</td>
-            <td>彰化縣北斗鎮中山路1段387號B棟5樓</td>
-            <td>
-                <div class="btn-group btn-group-sm" role="group" aria-label="Button group with nested dropdown">
-                    <button type="button" class="btn btn-outline-secondary">編輯</button>
-                    <button type="button" class="btn btn-outline-secondary">查看</button>
-
-                    <div class="btn-group" role="group">
-                        <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        其他
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                            <a class="dropdown-item text-danger" href="#">刪除</a>
-                        </div>
-                    </div>
-                </div>
-            </td>
-          </tr>
+                </td>
+              </tr>
+          <% } %>
         </tbody>
     </table>
 </div>

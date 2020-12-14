@@ -81,7 +81,7 @@
                   <% if (personalObj.payfor === 'cash') { %>
                     <td class="text-right">貨到付款</td>
                   <% }else if(personalObj.payfor === 'creditcard'){ %>
-                    <td class="text-right">中國信託</td>
+                    <td class="text-right">Line-Pay</td>
                   <% } %>
                 </tr>
                 <tr>
@@ -125,8 +125,14 @@
     
     <div class="text-right mb-4">
       <a href="/cart/personal" class="btn btn-success mr-2">回個人資料</a>
-      <form class="d-inline" action="/cart/linepay" method="POST">
-        <input type="submit" class="btn btn-success" value="確認結帳"></input>
-      </form>
+      <% if (personalObj.payfor === 'cash') { %>
+        <form class="d-inline" action="/cart/cash" method="POST">
+          <input type="submit" class="btn btn-success" value="確認結帳"></input>
+        </form>
+      <% }else if(personalObj.payfor === 'creditcard'){ %>
+        <form class="d-inline" action="/cart/linepay" method="POST">
+          <input type="submit" class="btn btn-success" value="確認結帳"></input>
+        </form> 
+      <% } %>
     </div>
 </div>

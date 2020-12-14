@@ -284,6 +284,82 @@ router.get('/pay', function(req, res, next) {
       });
     });
 });
+// 貨到付款 結帳
+router.post('/cash', function(req, res){
+  let user = '';
+  let productsArr = [];
+  let payableObj = {};
+  let cartArr = [];
+  let packages = [];
+  let products = [];
+  let payInfo = [];
+  let personalObj = {};
+  const now = Math.floor(Date.now() / 1000);
+    firebaseDb.ref('auth').once('value').then( auth => {
+      auth.forEach( data => {
+        if(data.val().user === req.session.email){
+          user = data.val().uid;
+        };
+      });
+      return firebaseDb.ref('products').once('value');
+    }).then( product => {
+      product.forEach( data => {
+        productsArr.push(data.val());
+      });
+      return firebaseDb.ref(`auth/${user}/payable`).once('value');
+    }).then( payable => {
+      payable.forEach( data => {
+        payableObj = data.val();
+      });
+      return firebaseDb.ref(`auth/${user}/cart`).once('value');
+    }).then( cart => {
+      cart.forEach( data => {
+        productsArr.forEach( items => {
+          if(data.val().uid === items.uid){
+            items.quantity = data.val().quantity;
+            cartArr.push(items);
+          };
+        });
+      });
+      return firebaseDb.ref(`auth/${user}/personal`).once('value');
+    }).then( personal => {
+      personal.forEach( data => {
+        personalObj = data.val();
+      });
+      return firebaseDb.ref('order').once('value');
+    }).then( order => {
+      const orderPath = firebaseDb.ref('order').push();
+      const key = orderPath.key;
+        cartArr.forEach( data => {
+          products.push({
+            name: data.product,
+            price: data.price,
+            quantity: data.quantity
+          })
+        });
+        products.push({
+          name: '運費',
+          price: 100,
+          quantity: 1
+        });
+        packages = [{
+          amount: payableObj.final,
+          products: products
+        }];
+        payInfo = [{
+          amount: payableObj.final,
+          method: 'cash'
+        }];
+        orderPath.set({
+          uid: key,
+          creatOrder: now,
+          personal: personalObj,
+          packages: packages,
+          payInfo: payInfo
+        });
+        res.redirect('/cart/finish/cash');
+    });
+});
 // line-pay 結帳
 router.post('/linepay', function(req, res){
   let user = '';
@@ -377,6 +453,11 @@ router.post('/linepay', function(req, res){
 });
 
 // todo 完成訂單
+// 貨到付款 完成頁面
+router.get('/finish/cash', function(req, res){
+  res.render('cart/Finish');
+});
+// line-pay 完成頁面
 router.get('/finish', function(req, res, next) {
   let user = '';
   let payableObj = {};

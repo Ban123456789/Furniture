@@ -141,18 +141,26 @@ $(document).ready(function () {
     $('.orderEdit').click(function (e) { 
         e.preventDefault();
         const uid = $(this).data('uid');
-        console.log($("input[name='editname']").data(uid));
-        // todo 今天要做 分辨出 input 之間的 data-uid
+        const name = $(`#editForm${uid} input[name='name']`).val();
+        const phone = $(`#editForm${uid} input[name='phone']`).val();
+        const email = $(`#editForm${uid} input[name='email']`).val();
+        const address = $(`#editForm${uid} input[name='address']`).val();
         $.ajax({
             url: '/dashboard/orders/editpersonal',
             type: 'POST',
             data: {
                 uid: uid,
                 name: name,
+                email: email,
+                phone: phone,
+                address: address
             },
             success: function (res) {
-                console.log(res);
-            }
+                
+            },
         });
+        setTimeout(function(){
+            location.reload();
+        },1000)
     });
 });

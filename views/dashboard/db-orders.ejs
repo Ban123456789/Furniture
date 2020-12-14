@@ -96,40 +96,38 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="mb-3">
-                                        <label for="editname"">買家姓名</label>
-                                        <input type="text" class="form-control" id="editname" placeholder="姓名" name="editname" 
-                                            value="<%= orderArr[i].personal.name %>"
-                                            data-uid="<%= orderArr[i].personal.uid %>"
-                                            required>
+                                <form id="editForm<%= orderArr[i].personal.uid %>">
+                                    <div class="modal-body">
+                                        <div class="mb-3">
+                                            <label for="editname"">買家姓名</label>
+                                            <input type="text" class="form-control" id="editname" placeholder="姓名" name="name" 
+                                                value="<%= orderArr[i].personal.name %>"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editphone"">商品電話</label>
+                                            <input type="text" class="form-control" id="editphone" placeholder="電話" name="phone" 
+                                                value="<%= orderArr[i].personal.phone %>"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editemail"">買家 Email</label>
+                                            <input type="text" class="form-control" id="editemail" placeholder="Email" name="email" 
+                                                value="<%= orderArr[i].personal.email %>"
+                                                required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="editaddress"">買家地址</label>
+                                            <input type="text" class="form-control" id="editaddress" placeholder="地址" name="address" 
+                                                value="<%= orderArr[i].personal.address %>"
+                                                required>
+                                        </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="editphone"">商品電話</label>
-                                        <input type="text" class="form-control" id="editphone" placeholder="電話" name="editphone" 
-                                            value="<%= orderArr[i].personal.phone %>"
-                                            data-uid="<%= orderArr[i].personal.uid %>"
-                                            required>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+                                        <button type="submit" class="btn btn-success orderEdit" data-uid="<%= orderArr[i].personal.uid %>">儲存編輯</button>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="editemail"">買家 Email</label>
-                                        <input type="text" class="form-control" id="editemail" placeholder="Email" name="editemail" 
-                                            value="<%= orderArr[i].personal.email %>"
-                                            data-uid="<%= orderArr[i].personal.uid %>"
-                                            required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="editaddress"">買家地址</label>
-                                        <input type="text" class="form-control" id="editaddress" placeholder="地址" name="editaddress" 
-                                            value="<%= orderArr[i].personal.address %>"
-                                            data-uid="<%= orderArr[i].personal.uid %>"
-                                            required>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
-                                    <button type="button" class="btn btn-success orderEdit" data-uid="<%= orderArr[i].personal.uid %>">儲存編輯</button>
-                                </div>
+                                </form>
                             </div>
                             </div>
                         </div>

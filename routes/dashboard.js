@@ -172,11 +172,22 @@ router.get('/orders', function(req, res, next) {
 // 編輯買家資訊
 router.post('/orders/editpersonal', function(req, res){
     const id = req.body.uid;
-    let name = req.body.name;
-    let email = req.body.email;
-    let phone = req.body.phone;
-    let address = req.body.address;
-        res.send({name,email,phone,address,id});
+    const name = req.body.name;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    const address = req.body.address;
+        firebaseDb.ref('order').once('value').then( order => {
+            order.forEach( data => {
+                if(data.val().personal.uid === id){
+                    firebaseDb.ref(`order/${data.val().uid}/personal`).update({
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        address: address
+                    });
+                };
+            });
+        });
 });
 
 // todo 其他

@@ -3,7 +3,7 @@ var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
 var firebase = require('../connection/firebase_client');
 var moment = require('moment');
-const { route, use } = require('./dashboard');
+require('dotenv').config();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -79,7 +79,11 @@ router.post('/auth/signin', function(req, res){
       req.session.uid = user.user.uid;
       req.session.email = user.user.email;
       console.log('登入成功');
-      res.redirect('/products');
+      if(req.session.uid === process.env.DASHBOARD_USER){
+        res.redirect('/dashboard/addproducts');
+      }else{
+        res.redirect('/products');
+      };
     })
     .catch((error) => {
       let errorMessage = '';

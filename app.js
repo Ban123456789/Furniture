@@ -6,6 +6,7 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -50,6 +51,13 @@ const authcheck = function(req, res, next){
   };
     return res.redirect('/auth');
 };
+const dashboardUser = function(req, res, next){
+  if(req.session.uid === process.env.DASHBOARD_USER){
+    return next();
+  }else{
+    return res.redirect('/auth');
+  };
+};
 
 
 // app.all('*', function(req, res, next) {
@@ -64,7 +72,7 @@ const authcheck = function(req, res, next){
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/cart', authcheck, cartRouter);
-app.use('/dashboard', dashboardRouter);
+app.use('/dashboard', dashboardUser, dashboardRouter);
 
 
 // catch 404 and forward to error handler

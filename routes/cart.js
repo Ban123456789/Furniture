@@ -438,8 +438,8 @@ router.post('/linepay', function(req, res){
         'orderId': payableObj.uid + id,
         'packages': [packages],
         'redirectUrls': {
-          'confirmUrl': 'http://127.0.0.1:3000/cart/finish',
-          'cancelUrl': 'https://6ddcf789.ngrok.io/cancelUrl'
+          'confirmUrl': 'https://furnitureebp.herokuapp.com/cart/finish',
+          'cancelUrl': 'https://furnitureebp.herokuapp.com/cart/finish'
         }
       };
 

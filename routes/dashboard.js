@@ -187,7 +187,7 @@ router.post('/orders/editpersonal', function(req, res){
                     });
                 };
             });
-        });
+        })
 });
 
 // todo 其他

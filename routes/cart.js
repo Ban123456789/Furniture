@@ -329,7 +329,9 @@ router.post('/cash', function(req, res){
       return firebaseDb.ref('order').once('value');
     }).then( order => {
       const orderPath = firebaseDb.ref('order').push();
+      const authOrderPath = firebaseDb.ref(`auth/${user}/order`).push();
       const key = orderPath.key;
+      const authOrderKey = authOrderPath.key;
         cartArr.forEach( data => {
           products.push({
             name: data.product,
@@ -350,12 +352,27 @@ router.post('/cash', function(req, res){
           amount: payableObj.final,
           method: 'cash'
         }];
+        personalObj.uid = personalObj.uid + now;
         orderPath.set({
           uid: key,
           creatOrder: now,
           personal: personalObj,
           packages: packages,
-          payInfo: payInfo
+          payInfo: payInfo,
+          cart: cartArr
+        });
+        authOrderPath.set({
+          authOrderUid: authOrderKey,
+          uid: key,
+          creatOrder: now,
+          personal: personalObj,
+          packages: packages,
+          payInfo: payInfo,
+          cart: cartArr
+        }).then( success => {
+          firebaseDb.ref(`auth/${user}`).child('cart').remove();
+          firebaseDb.ref(`auth/${user}`).child('discount').remove();
+          firebaseDb.ref(`auth/${user}`).child('payable').remove();
         });
         res.redirect('/cart/finish/cash');
     });
@@ -520,7 +537,10 @@ router.get('/finish', function(req, res, next) {
                 return firebaseDb.ref('order').once('value');
               }).then( order => {
                 const orderPath = firebaseDb.ref('order').push();
+                const authOrderPath = firebaseDb.ref(`auth/${user}/order`).push();
+                const authOrderKey = authOrderPath.key;
                 const key = orderPath.key;
+                  personalObj.uid = personalObj.uid + now;
                   orderPath.set({
                     uid: key,
                     creatOrder: now,
@@ -528,6 +548,19 @@ router.get('/finish', function(req, res, next) {
                     cart: cartArr,
                     payInfo: success.data.info.payInfo,
                     packages: success.data.info.packages
+                  });
+                  authOrderPath.set({
+                    authOrderUid: authOrderKey,
+                    uid: key,
+                    creatOrder: now,
+                    personal: personalObj,
+                    cart: cartArr,
+                    payInfo: success.data.info.payInfo,
+                    packages: success.data.info.packages
+                  }).then( success => {
+                    firebaseDb.ref(`auth/${user}`).child('cart').remove();
+                    firebaseDb.ref(`auth/${user}`).child('discount').remove();
+                    firebaseDb.ref(`auth/${user}`).child('payable').remove();
                   });
                   res.render('cart/Finish');
               });

@@ -42,8 +42,8 @@
                 <% } %>
             </p>
 
-            <form action="/detail/<%= productDetail.uid %>/total" method="POST">
-                <select name="quantity" class="quantity-style mt-4">
+            <form>
+                <select name="quantity" class="quantity-style mt-4" id="detail<%= productDetail.uid %>">
                     <option value="choose" disabled>請選擇你要得數量</option>
                     <% for( let i = 1; i <= 10; i++ ) { %>
                         <option value="<%= i %>"><%= i %> <span><%= productDetail.unit %></span></option>
@@ -51,7 +51,7 @@
                 </select>
                 <div class="text-right mt-4 content-size font-weight-bolder">
                     <!-- <p class="d-inline-block mr-3">小計 <span class="border-lf">NT 3,000</span></p> -->
-                    <input type="submit" value="加到購物車" class="btn btn-outline-danger font-weight-bolder">
+                    <input type="submit" value="加到購物車" class="btn btn-outline-danger font-weight-bolder" id="detailAddCart" data-uid="<%= productDetail.uid %>">
                 </div>
             </form>
         </div>

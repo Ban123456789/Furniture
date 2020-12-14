@@ -204,19 +204,52 @@ router.get('/detail/:id', function(req, res, next) {
       });
     });
 });
-// 計算價格
-router.post('/detail/:id/total', function(req, res){
-  const id = req.params.id;
+// 商品細節內的加到購物車
+router.post('/detail/addcart', function(req, res){
+  const id = req.body.uid;
   const quantity = req.body.quantity;
-  let total = '';
-    firebaseDb.ref('/products').once('value').then( products => {
-      products.forEach( data => {
-        if(data.val().uid === id){
-          total = data.val().price * quantity;
-        };
+  let userUid = '';
+  let cartArr = [];
+    if(req.session.uid){
+      firebaseDb.ref('auth').once('value').then( auth => {
+        auth.forEach( data => {
+          if(data.val().user === req.session.email){
+            userUid = data.val().uid;
+          };
+        });
+        return firebaseDb.ref(`auth/${userUid}/cart`).once('value');
+      }).then( cart => {
+        let cartPath = firebaseDb.ref(`/auth/${userUid}/cart`).push();
+        let uid = cartPath.key;
+          cart.forEach( items => {
+            cartArr.push(items.val().uid);
+          });
+        let set = new Set(cartArr);
+        // console.log(set.has(id));
+          if(set.has(id)){
+            cart.forEach( items => {
+              if(items.val().uid === id){
+                firebaseDb.ref(`/auth/${userUid}/cart`).child(items.val().cartUid).update({
+                  quantity: quantity
+                });
+              };
+            });
+          }else{
+            cartPath.set({
+              uid: id,
+              cartUid: uid,
+              quantity: quantity
+            });
+          };
+          res.send({
+            status: 'success'
+          });
       });
-    });
-    res.redirect(`/detail/${id}`);
+    }else{
+      res.send({
+        status: 'fail'
+      });
+    };
 });
 
 // todo 關於我們

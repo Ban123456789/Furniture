@@ -88,6 +88,32 @@ $(document).ready(function () {
             },
         });
     });
+    // 商品細節中的加到購物車
+    $('#detailAddCart').click(function (e) { 
+        e.preventDefault();
+        const uid = $(this).data('uid');
+        const quantity = $(`#detail${uid}`).val();
+        $.ajax({
+            url: '/detail/addcart',
+            type: 'POST',
+            data: {
+                uid: uid,
+                quantity: quantity
+            },
+            success: function(res){
+              if(res.status === 'success'){
+                swal({
+                    icon: "success",
+                    text: "成功加入購物車",
+                    button: false,
+                    timer: 2000
+                });
+              }else{
+                window.location.replace('/auth');
+              };  
+            },
+        });
+    });
     
     
     // todo check-cart

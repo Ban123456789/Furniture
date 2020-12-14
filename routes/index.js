@@ -123,7 +123,7 @@ router.get('/products', function(req, res, next) {
             data.origin = data.origin.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
           });
           // console.log(productsArr);
-          res.render('client/products', {
+          res.render('client/Products', {
               categoriesArr,
               productsArr,
               category

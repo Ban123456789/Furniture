@@ -7,7 +7,7 @@ require('dotenv').config();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.redirect('/amin');
+  res.redirect('/main');
 });
 
 // todo 首頁

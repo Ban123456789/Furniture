@@ -9,7 +9,7 @@ require('dotenv').config();
 
 // todo 確認購物車內容
 router.get('/', function(req, res, next) {
-    // res.render('layout/cart-layout');
+    res.redirect('/checkcart');
   });
 
 // todo 確認購物車內容

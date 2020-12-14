@@ -7,7 +7,7 @@ require('dotenv').config();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Expressssss' });
+  res.redirect('/amin');
 });
 
 // todo 首頁

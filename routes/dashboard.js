@@ -6,7 +6,7 @@ var moment = require('moment');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    res.render('dashboard/db-addproducts');
+    res.redirect('/addproducts');
 });
 
 // todo 商品管理

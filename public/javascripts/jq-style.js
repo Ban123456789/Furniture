@@ -7,7 +7,14 @@ $(document).ready(function () {
     // about page banner content
     $('.about-banner-first').fadeIn(1000);
     $('.about-banner-second').fadeIn(2000);
-    
+
+    // todo sign
+    $('.pSign').click(function (e) { 
+        e.preventDefault();
+        $('#signInForm').toggleClass("d-block");
+        $('#registerForm').toggleClass("d-none");
+    });
+
     // todo products
     // 加入珍藏
     $('.favBtn').click(function (e) { 

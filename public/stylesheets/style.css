@@ -841,3 +841,22 @@ a:hover {
   font-weight: bolder;
 }
 
+.pContainer {
+  display: none;
+}
+
+@media(max-width:763px){
+  .signInWrap {
+    background: none;
+  }
+  .Container {
+    display: none
+  }
+  .go-top {
+    display: none
+  }
+  .pContainer {
+    display: block;
+  }
+};
+

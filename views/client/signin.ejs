@@ -65,4 +65,60 @@
             </div>
         </div>
     </div>
+
+    <!-- 763px 顯示 -->
+    <div class="pContainer">
+        <!-- 註冊 -->
+        <form action="/auth/register" method="POST" class="form" id="registerForm">
+            <h2 class="form__title mt-3">註冊</h2>
+            <input type="email" placeholder="輸入帳號" class="input" name="email" required/>
+            <% for( let i in message ) { %>
+                <% if (message[i] === '請輸入有效郵件!!!') { %>
+                    <small class="text-danger"><%= message[i] %></small> 
+                <% }else if(message[i] === '此郵件已註冊過摟!!!') { %>
+                    <small class="text-danger"><%= message[i] %></small> 
+                <% } %>
+            <% } %>
+            <input type="password" placeholder="輸入密碼" class="input" name="password" required/>
+            <% for( let i in message ) { %>
+                <% if (message[i] === '密碼至少六個字元!!!') { %>
+                    <small class="text-danger"><%= message[i] %></small> 
+                <% } %>
+            <% } %>
+            <input type="password" placeholder="確認密碼" class="input" name="checkPassword" required/>
+            <% for( let i in message ) { %>
+                <% if (message[i] === '註冊成功!') { %>
+                    <small class="text-success"><%= message[i] %></small> 
+                <% }else if(message[i] === '請輸入相同的密碼><') { %>
+                    <small class="text-danger"><%= message[i] %></small> 
+                <% } %>
+            <% } %>
+            <div class="d-flex my-3">
+                <button type="submit" class="btn btn-success mr-2">確認註冊</button>
+                <button type="button" class="btn btn-success pSign">前往登入</button>
+            </div>
+        </form>
+        
+        <!-- 登入 -->
+        <form action="/auth/signin" method="POST" class="form d-none" id="signInForm">
+            <h2 class="form__title mt-3">登入</h2>
+            <input type="email" placeholder="輸入帳號" class="input" name="email" required/>
+            <% for( let i in message ) { %>
+                <% if (message[i] === '此帳號尚未註冊或是輸入錯誤!') { %>
+                    <small class="text-danger"><%= message[i] %></small> 
+                <% } %>
+            <% } %>
+            <input type="password" placeholder="輸入密碼" class="input" name="password" required/>
+            <% for( let i in message ) { %>
+                <% if (message[i] === '密碼輸入錯誤!') { %>
+                    <small class="text-danger"><%= message[i] %></small> 
+                <% } %>
+            <% } %>
+            <!-- <a href="#" class="link">忘記密碼?</a> -->
+            <div class="d-flex justify-content-center my-3">
+                <button type="submit" class="btn btn-success mr-3">登入</button>
+                <button type="button" class="btn btn-success pSign">前往註冊</button>
+            </div>
+        </form>
+    </div>
 </div>

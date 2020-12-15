@@ -66,8 +66,8 @@
                 </tr>
                 <tr>
                   <th>優惠券</th>
-                  <% if (payableObj.discount === '未使用優惠券') { %>
-                    <td class="text-right text-secondary"><%= payableObj.discount %></td>
+                  <% if (payableObj.discount === '未使用優惠券' || payableObj.discount === '1') { %>
+                    <td class="text-right text-secondary">未使用優惠券</td>
                   <% }else{ %>
                     <td class="text-right text-success"><span>折扣</span> <%= payableObj.discount %>%</td>
                   <% } %>

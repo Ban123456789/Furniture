@@ -481,6 +481,7 @@ router.get('/finish', function(req, res, next) {
   let productsArr = [];
   let cartArr = [];
   let personalObj = {};
+  let transactionId = '';
   const now = Math.floor(Date.now() / 1000);
     firebaseDb.ref('auth').once('value').then( auth => {
       auth.forEach( data => {
@@ -515,6 +516,7 @@ router.get('/finish', function(req, res, next) {
         .then( success => {
           console.log(success.data);
           console.log(success.data.info.payInfo, success.data.info.packages);
+          transactionId = success.data.info.transactionId;
             if(success.data.returnCode === '0000'){
               firebaseDb.ref('products').once('value').then( products => {
                 products.forEach( data => {
@@ -547,7 +549,8 @@ router.get('/finish', function(req, res, next) {
                     personal: personalObj,
                     cart: cartArr,
                     payInfo: success.data.info.payInfo,
-                    packages: success.data.info.packages
+                    packages: success.data.info.packages,
+                    transactionId: transactionId
                   });
                   authOrderPath.set({
                     authOrderUid: authOrderKey,
@@ -556,7 +559,8 @@ router.get('/finish', function(req, res, next) {
                     personal: personalObj,
                     cart: cartArr,
                     payInfo: success.data.info.payInfo,
-                    packages: success.data.info.packages
+                    packages: success.data.info.packages,
+                    transactionId: transactionId
                   }).then( success => {
                     firebaseDb.ref(`auth/${user}`).child('cart').remove();
                     firebaseDb.ref(`auth/${user}`).child('discount').remove();

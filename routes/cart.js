@@ -4,7 +4,6 @@ var firebaseDb = require('../connection/firebase_admin');
 const uuid = require('uuid4');
 const crypto = require('crypto-js');
 const axios = require('axios');
-// const linepay = require('../connection/line_pay');
 require('dotenv').config();
 
 // todo 確認購物車內容

@@ -3,6 +3,9 @@ var router = express.Router();
 var firebaseDb = require('../connection/firebase_admin');
 var stringTag = require('striptags');
 var moment = require('moment');
+const uuid = require('uuid4');
+const crypto = require('crypto-js');
+const axios = require('axios');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -188,6 +191,43 @@ router.post('/orders/editpersonal', function(req, res){
                 };
             });
         })
+});
+// 刪除訂單加退款
+router.post('/orders/delorder', function(req, res){
+    const id = req.body.uid;
+    let delOrderUid = '';
+    let transactionId = '';
+        firebaseDb.ref('order').once('value').then( order => {
+            order.forEach( data => {
+                if(data.val().personal.uid === id){
+                    delOrderUid = data.val().uid;
+                    transactionId = data.val().transactionId;
+                };
+            });
+            firebaseDb.ref('order').child(delOrderUid).remove();
+
+            const key = process.env.LINE_PAY_CHANNALSECRET;
+            const nonce = uuid();
+            const comfirmUrl = `/v3/payments/${transactionId}/refund`;
+            const item = '';
+            let encrypt = crypto.HmacSHA256(key + comfirmUrl + JSON.stringify(item) + nonce, key);
+            let HmacBase64 = crypto.enc.Base64.stringify(encrypt);
+            let comfirmConfigs = {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-LINE-ChannelId': process.env.LINE_PAY_CHANNALID,
+                  'X-LINE-Authorization-Nonce': nonce,
+                  'X-LINE-Authorization': HmacBase64
+                }
+              };
+              axios.post(`https://sandbox-api-pay.line.me/${comfirmUrl}`, item, comfirmConfigs)
+              .then( success => {
+                  console.log(success.data);
+                  res.send({
+                      status: 'success',
+                  });
+              });
+        });
 });
 
 // todo 其他

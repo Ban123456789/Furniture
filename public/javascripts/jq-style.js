@@ -196,4 +196,19 @@ $(document).ready(function () {
             location.reload();
         },1000)
     });
+    // delOrder
+    $('.dbDelOrder').click(function (e) { 
+        e.preventDefault();
+        const uid = $(this).data('uid');
+        $.ajax({
+            url: '/dashboard/orders/delorder',
+            type: 'POST',
+            data: {
+                uid: uid,
+            },
+            success: function(res){
+                console.log(res);
+            }
+        });
+    });
 });

@@ -860,3 +860,8 @@ a:hover {
   }
 };
 
+/* 搜尋功能 */
+.addProductsSearch tr:not([data-title*=""]) {
+  display: none;
+}
+

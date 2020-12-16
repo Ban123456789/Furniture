@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
 
 // todo 商品管理
 router.get('/addproducts', function(req, res, next) {
+    let currentPage = req.query.page || 1;
     let categoriesArr = []; 
     let productsArr = [];
     let category = req.query.category || '全部商品';
@@ -32,10 +33,32 @@ router.get('/addproducts', function(req, res, next) {
                     productsArr.push(products.val());
                 }
             });
-            // console.log(productsArr);
+            const totalResult = productsArr.length;
+            const perPage = 10; // 每頁幾筆資料
+            const totalPage = Math.ceil(totalResult / perPage); // 總頁數
+                if(currentPage > totalPage){
+                    currentPage = totalPage;
+                };
+            const minItem = currentPage * perPage - perPage + 1;
+            const maxItem = currentPage * perPage;
+            let newData = [];
+                productsArr.forEach(function(data, i){
+                    let itemNum = i + 1;
+                        if(itemNum >= minItem && itemNum <= maxItem){
+                            newData.push(data);
+                        };
+                });
+            const page = {
+                currentPage,
+                totalPage,
+                hasPre: currentPage > 1,
+                hasNext: currentPage < totalPage
+            };
+            
             res.render('dashboard/db-addproducts', {
                 categoriesArr,
-                productsArr,
+                productsArr: newData,
+                page
             });
         });
 });
@@ -161,14 +184,37 @@ router.post('/product/del/:id', function(req, res){
 
 // todo 訂單查詢
 router.get('/orders', function(req, res, next) {
+    let currentPage = req.query.page || 1;
     let orderArr = [];
         firebaseDb.ref('order').once('value').then( order => {
             order.forEach( data => {
                 orderArr.push(data.val());
             });
+            const totalResult = orderArr.length;
+            const perPage = 10; // 每頁幾筆資料
+            const totalPage = Math.ceil(totalResult / perPage); // 總頁數
+                if(currentPage > totalPage){
+                    currentPage = totalPage;
+                };
+            const minItem = currentPage * perPage - perPage + 1;
+            const maxItem = currentPage * perPage;
+            let newData = [];
+                orderArr.forEach(function(data, i){
+                    let itemNum = i + 1;
+                        if(itemNum >= minItem && itemNum <= maxItem){
+                            newData.push(data);
+                        };
+                });
+            const page = {
+                currentPage,
+                totalPage,
+                hasPre: currentPage > 1,
+                hasNext: currentPage < totalPage
+            };
             res.render('dashboard/db-orders', {
-                orderArr,
-                moment
+                orderArr: newData,
+                moment,
+                page
             });
         });
 });

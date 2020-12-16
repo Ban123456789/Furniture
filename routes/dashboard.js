@@ -208,9 +208,7 @@ router.post('/orders/delorder', function(req, res){
             const key = process.env.LINE_PAY_CHANNALSECRET;
             const nonce = uuid();
             const comfirmUrl = `/v3/payments/${transactionId}/refund`;
-            let item = {
-                "refundAmount": 12100
-            };
+            let item = {};
             let encrypt = crypto.HmacSHA256(key + comfirmUrl + JSON.stringify(item) + nonce, key);
             let HmacBase64 = crypto.enc.Base64.stringify(encrypt);
             let comfirmConfigs = {

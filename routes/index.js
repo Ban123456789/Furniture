@@ -13,9 +13,12 @@ router.get('/', function(req, res, next) {
 // todo 首頁
 router.get('/main', function(req, res, next) {
   let newsArr = [];
+  const now = Math.floor(Date.now() / 1000);
     firebaseDb.ref('news').once('value').then( news => {
       news.forEach( data => {
-        newsArr.push(data.val());
+        if(data.val().date <= now){
+          newsArr.push(data.val());
+        };
       });
       newsArr.reverse();
       res.render('client/main', {

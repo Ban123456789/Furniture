@@ -211,4 +211,18 @@ $(document).ready(function () {
             }
         });
     });
+
+    // todo 360商品檢視
+    $('.example').TreeSixtyImageRotate({
+        totalFrames: 36,
+        endFrame: 36,
+        currentFrame: 0,
+        extension: ".png",
+        imagesFolder: "/images/prod1/",
+        smallWidth: 400,
+        smallHeight: 400,
+        largeWidth: 800,
+        largeHeight: 800,
+        imagePlaceholderClass: "images-placeholder"
+    }).initTreeSixty();
 });

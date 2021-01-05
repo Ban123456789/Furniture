@@ -250,28 +250,31 @@ router.post('/orders/delorder', function(req, res){
                     transactionId = data.val().transactionId;
                 };
             });
-            // firebaseDb.ref('order').child(delOrderUid).remove();
-            const key = process.env.LINE_PAY_CHANNALSECRET;
-            const nonce = uuid();
-            const comfirmUrl = `/v3/payments/${transactionId}/refund`;
-            let item = {};
-            let encrypt = crypto.HmacSHA256(key + comfirmUrl + JSON.stringify(item) + nonce, key);
-            let HmacBase64 = crypto.enc.Base64.stringify(encrypt);
-            let comfirmConfigs = {
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-LINE-ChannelId': process.env.LINE_PAY_CHANNALID,
-                  'X-LINE-Authorization-Nonce': nonce,
-                  'X-LINE-Authorization': HmacBase64
-                }
-              };
-              axios.post(`https://sandbox-api-pay.line.me${comfirmUrl}`, item, comfirmConfigs)
-              .then( success => {
-                  console.log(success.data);
-                  res.send({
-                      status: 'success',
-                  });
-              });
+            firebaseDb.ref('order').child(delOrderUid).remove();
+            res.send({
+                status: 'success'
+            });
+            // const key = process.env.LINE_PAY_CHANNALSECRET;
+            // const nonce = uuid();
+            // const comfirmUrl = `/v3/payments/${transactionId}/refund`;
+            // let item = {};
+            // let encrypt = crypto.HmacSHA256(key + comfirmUrl + JSON.stringify(item) + nonce, key);
+            // let HmacBase64 = crypto.enc.Base64.stringify(encrypt);
+            // let comfirmConfigs = {
+            //     headers: {
+            //       'Content-Type': 'application/json',
+            //       'X-LINE-ChannelId': process.env.LINE_PAY_CHANNALID,
+            //       'X-LINE-Authorization-Nonce': nonce,
+            //       'X-LINE-Authorization': HmacBase64
+            //     }
+            //   };
+            //   axios.post(`https://sandbox-api-pay.line.me${comfirmUrl}`, item, comfirmConfigs)
+            //   .then( success => {
+            //       console.log(success.data);
+            //       res.send({
+            //           status: 'success',
+            //       });
+            //   });
         });
 });
 

@@ -207,7 +207,11 @@ $(document).ready(function () {
                 uid: uid,
             },
             success: function(res){
-                console.log(res);
+                if(res.status === 'success'){
+                    setTimeout(function(){
+                        location.reload();
+                    },1000)
+                };
             }
         });
     });
